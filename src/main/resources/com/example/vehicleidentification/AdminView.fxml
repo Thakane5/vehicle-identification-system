@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="700" minWidth="1200" spacing="0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vehicleidentification.controllers.AdminController">
+
+    <MenuBar styleClass="menu-bar">
+        <Menu text="File">
+            <MenuItem onAction="#handleExit" text="Exit" />
+        </Menu>
+        <Menu text="Modules">
+            <MenuItem onAction="#goToDashboard" text="Dashboard" />
+            <MenuItem onAction="#goToVehicle" text="Vehicles" />
+            <MenuItem onAction="#goToCustomer" text="Customer Panel" />
+            <MenuItem onAction="#goToWorkshop" text="Workshop" />
+            <MenuItem onAction="#goToPolice" text="Police Reports" />
+            <MenuItem onAction="#goToViolation" text="Violation" />
+            <MenuItem onAction="#goToInsurance" text="Insurance" />
+            <MenuItem onAction="#goToAdmin" text="User Management" />
+        </Menu>
+    </MenuBar>
+
+    <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
+        <VBox>
+            <Label styleClass="header-logo" text="VehicleID System" />
+            <Label styleClass="header-subtitle" text="Admin Panel" />
+        </VBox>
+        <HBox HBox.hgrow="ALWAYS" />
+        <Button onAction="#goToDashboard" styleClass="nav-btn" text="Dashboard" />
+        <Button onAction="#goToVehicle" styleClass="nav-btn" text="Vehicles" />
+        <Button onAction="#goToCustomer" styleClass="nav-btn" text="Customer Panel" />
+        <Button onAction="#goToWorkshop" styleClass="nav-btn" text="Workshop" />
+        <Button onAction="#goToPolice" styleClass="nav-btn" text="Police Reports" />
+        <Button onAction="#goToViolation" styleClass="nav-btn" text="Violation" />
+        <Button onAction="#goToInsurance" styleClass="nav-btn" text="Insurance" />
+        <Button onAction="#goToAdmin" styleClass="nav-btn nav-btn-active" text="User Management" />
+        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="btn-danger" text="Logout" />
+    </HBox>
+
+    <!-- ACCESS DENIED -->
+    <VBox fx:id="accessDeniedPane" alignment="CENTER" managed="false" spacing="20" style="-fx-padding:80;-fx-background-color:#ffebee;" visible="false" VBox.vgrow="ALWAYS">
+        <Label style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#c62828;" text="Access Denied" />
+        <Button onAction="#goToDashboard" styleClass="btn-danger" text="Go Back to Dashboard" />
+    </VBox>
+
+    <!-- MAIN CONTENT -->
+    <VBox fx:id="mainContentPane" managed="false" visible="false" VBox.vgrow="ALWAYS">
+        <HBox spacing="20" style="-fx-padding:20;" VBox.vgrow="ALWAYS">
+
+            <!-- LEFT FORM -->
+            <ScrollPane fitToWidth="true" prefWidth="380" style="-fx-background-color:transparent;-fx-background:transparent;">
+                <VBox prefWidth="360" spacing="12" styleClass="card">
+                    <Label styleClass="page-title" text="Manage System Users" />
+
+                    <Label styleClass="form-label" text="User ID (e.g. ADM001)" />
+                    <TextField fx:id="userIdField" promptText="Letters and numbers only (e.g. ADM001)" styleClass="form-field" />
+
+                    <Label styleClass="form-label" text="Full Name" />
+                    <TextField fx:id="usernameField" promptText="Letters and spaces only" styleClass="form-field" />
+
+                    <Label styleClass="form-label" text="Password" />
+                    <TextField fx:id="passwordField" promptText="Minimum 4 characters" styleClass="form-field" />
+
+                    <Label styleClass="form-label" text="Email" />
+                    <TextField fx:id="emailField" promptText="user@example.com" styleClass="form-field" />
+
+                    <Label styleClass="form-label" text="Phone" />
+                    <TextField fx:id="phoneField" promptText="Phone number" styleClass="form-field" />
+
+                    <Label styleClass="form-label" text="Role" />
+                    <ComboBox fx:id="roleCombo" maxWidth="Infinity" onAction="#handleRoleSelected" promptText="Select role" styleClass="form-field" />
+
+                    <Label fx:id="roleInfoLabel" style="-fx-font-size:11px;-fx-text-fill:#5c6bc0;" text="" wrapText="true" />
+
+                    <Separator />
+
+                    <HBox spacing="8">
+                        <Button maxWidth="Infinity" onAction="#handleCreate" styleClass="btn-primary" text="Create" HBox.hgrow="ALWAYS" />
+                        <Button maxWidth="Infinity" onAction="#handleUpdate" styleClass="btn-primary" text="Update" HBox.hgrow="ALWAYS" />
+                        <Button maxWidth="Infinity" onAction="#handleDelete" styleClass="btn-danger" text="Delete" HBox.hgrow="ALWAYS" />
+                    </HBox>
+
+                    <Button maxWidth="Infinity" onAction="#handleClearForm" style="-fx-background-color:#b0bec5;-fx-text-fill:#263238;                                    -fx-font-weight:bold;-fx-background-radius:5;                                    -fx-cursor:hand;" text="Clear" />
+
+                    <Label fx:id="messageLabel" style="-fx-font-size:12px;" text="" wrapText="true" />
+                </VBox>
+            </ScrollPane>
+
+
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label style="-fx-text-fill:white;" styleClass="page-title" text="All System Users" />
+                <ScrollPane fitToWidth="true" style="-fx-background-color:transparent;-fx-background:transparent;" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="userTable" prefHeight="600" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colUserId" prefWidth="80" text="ID" />
+                            <TableColumn fx:id="colUsername" prefWidth="160" text="Full Name" />
+                            <TableColumn fx:id="colRole" prefWidth="120" text="Role" />
+                            <TableColumn fx:id="colEmail" prefWidth="200" text="Email" />
+                        </columns>
+                        <placeholder><Label text="No users found." /></placeholder>
+                    </TableView>
+                </ScrollPane>
+            </VBox>
+        </HBox>
+    </VBox>
+</VBox>

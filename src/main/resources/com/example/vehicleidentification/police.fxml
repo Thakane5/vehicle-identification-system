@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="700" minWidth="1200" spacing="0" style="-fx-background-color: transparent;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vehicleidentification.controllers.PoliceController">
+
+    <MenuBar styleClass="menu-bar">
+        <Menu text="File">
+            <MenuItem onAction="#handleExit" text="Exit" />
+        </Menu>
+        <Menu text="Modules">
+            <MenuItem onAction="#goToDashboard" text="Dashboard" />
+            <MenuItem onAction="#goToVehicle" text="Vehicles" />
+            <MenuItem onAction="#goToCustomer" text="Customer Panel" />
+            <MenuItem onAction="#goToWorkshop" text="Workshop" />
+            <MenuItem onAction="#goToPolice" text="Police Report" />
+            <MenuItem onAction="#goToViolation" text="Violation" />
+            <MenuItem onAction="#goToInsurance" text="Insurance" />
+            <MenuItem onAction="#goToAdmin" text="User Management" />
+        </Menu>
+    </MenuBar>
+
+    <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
+        <VBox>
+            <Label styleClass="header-logo" text="VehicleID System" />
+            <Label styleClass="header-subtitle" text="Police Module" />
+        </VBox>
+        <HBox HBox.hgrow="ALWAYS" />
+        <Button onAction="#goToDashboard" styleClass="nav-btn" text="Dashboard" />
+        <Button onAction="#goToVehicle" styleClass="nav-btn" text="Vehicles" />
+        <Button onAction="#goToCustomer" styleClass="nav-btn" text="Customer Panel" />
+        <Button onAction="#goToWorkshop" styleClass="nav-btn" text="Workshop" />
+        <Button onAction="#goToPolice" styleClass="nav-btn nav-btn-active" text="Police Report" />
+        <Button onAction="#goToViolation" styleClass="nav-btn" text="Violation" />
+        <Button onAction="#goToInsurance" styleClass="nav-btn" text="Insurance" />
+        <Button onAction="#goToAdmin" styleClass="nav-btn" text="User Management" />
+        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="btn-danger" text="Logout" />
+    </HBox>
+
+    <!-- ACCESS DENIED -->
+    <VBox fx:id="accessDeniedPane" alignment="CENTER" managed="false" spacing="20" style="-fx-padding:80;-fx-background-color:#ffebee;" visible="false" VBox.vgrow="ALWAYS">
+        <Label style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#c62828;" text="Access Denied" />
+        <Label style="-fx-font-size:14px;-fx-text-fill:#555;" text="Only Police officers and Admins can access this module." />
+        <Button onAction="#goToDashboard" styleClass="btn-danger" text="Go Back to Dashboard" />
+    </VBox>
+
+    <!-- MAIN CONTENT -->
+    <HBox fx:id="mainContentPane" managed="false" spacing="0" visible="false" VBox.vgrow="ALWAYS">
+
+        <!-- LEFT FORM PANEL — shown to POLICE, hidden from ADMIN -->
+        <ScrollPane fx:id="formScrollPane" fitToWidth="true" minWidth="340" prefWidth="360" style="-fx-background-color:transparent;-fx-background:transparent;">
+            <VBox spacing="10" style="-fx-padding:20;-fx-background-color:white;">
+
+                <Label styleClass="page-title" text="File Police Report" />
+
+                <Label styleClass="form-label" text="Vehicle *" />
+                <ComboBox fx:id="vehicleCombo" maxWidth="Infinity" promptText="Select vehicle..." styleClass="form-field" />
+                <Label fx:id="vehicleInfoLabel" style="-fx-font-size:11px;-fx-text-fill:#5c6bc0;" text="" wrapText="true" />
+
+                <Label styleClass="form-label" text="Report Date *" />
+                <DatePicker fx:id="reportDatePicker" maxWidth="Infinity" styleClass="form-field" />
+
+                <Label styleClass="form-label" text="Report Type *" />
+                <ComboBox fx:id="reportTypeCombo" maxWidth="Infinity" promptText="Select type..." styleClass="form-field" />
+
+                <Label styleClass="form-label" text="Description" />
+                <TextArea fx:id="descriptionField" prefHeight="70" promptText="Describe the incident..." style="-fx-border-color:#c5cae9;-fx-border-radius:5; -fx-background-radius:5;-fx-font-size:13px;" wrapText="true" />
+
+                <Label styleClass="form-label" text="Officer Name *" />
+                <TextField fx:id="officerField" promptText="e.g. Officer Mokoena" styleClass="form-field" />
+
+                <Label styleClass="form-label" text="Station" />
+                <TextField fx:id="stationField" promptText="e.g. Maseru Central" styleClass="form-field" />
+
+                <Label styleClass="form-label" text="Case Number" />
+                <TextField fx:id="caseNumberField" promptText="e.g. CAS-2024-001" styleClass="form-field" />
+
+                <Separator />
+
+                <!-- Action buttons — POLICE only -->
+                <VBox fx:id="actionButtonsPane" spacing="8">
+                    <Button maxWidth="Infinity" onAction="#handleAdd" styleClass="btn-primary" text="Add Report" />
+                    <Button maxWidth="Infinity" onAction="#handleUpdate" styleClass="btn-primary" text="Update Report" />
+                    <Button fx:id="btnDelete" maxWidth="Infinity" onAction="#handleDelete" styleClass="btn-danger" text="Delete Report" />
+                    <Button maxWidth="Infinity" onAction="#handleClear" style="-fx-background-color:#eceff1;-fx-text-fill:#424242; -fx-font-size:13px;-fx-padding:9 20; -fx-background-radius:5;-fx-cursor:hand; -fx-font-weight:bold;" text="Clear Form" />
+                </VBox>
+
+                <Label fx:id="messageLabel" text="" wrapText="true" />
+            </VBox>
+        </ScrollPane>
+
+        <!-- RIGHT TABLE PANEL -->
+        <VBox spacing="12" style="-fx-padding:20;-fx-background-color:#f5f7ff;" HBox.hgrow="ALWAYS">
+
+            <!-- Summary cards -->
+            <HBox spacing="16">
+                <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
+                    <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Total Reports" />
+                    <Label fx:id="totalReportsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#1565c0;" text="0" />
+                </VBox>
+                <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
+                    <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Accidents" />
+                    <Label fx:id="accidentsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#c62828;" text="0" />
+                </VBox>
+                <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
+                    <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Thefts" />
+                    <Label fx:id="theftsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#e65100;" text="0" />
+                </VBox>
+            </HBox>
+
+            <!-- Search -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <TextField fx:id="searchField" promptText="Search by registration, officer, type..." styleClass="form-field" HBox.hgrow="ALWAYS" />
+                <Button onAction="#handleSearch" styleClass="btn-primary" text="Search" />
+                <Button onAction="#handleClearSearch" style="-fx-background-color:#eceff1;-fx-text-fill:#424242; -fx-font-size:13px;-fx-padding:9 20; -fx-background-radius:5;-fx-cursor:hand; -fx-font-weight:bold;" text="Clear" />
+            </HBox>
+
+            <!-- Filter buttons -->
+            <HBox spacing="8">
+                <Button onAction="#filterAll" styleClass="btn-primary" text="All" />
+                <Button onAction="#filterAccidents" styleClass="btn-primary" text="Accidents" />
+                <Button onAction="#filterTheft" styleClass="btn-primary" text="Theft" />
+                <Button onAction="#filterInspection" styleClass="btn-primary" text="Inspection" />
+            </HBox>
+
+            <Label fx:id="tableMessageLabel" style="-fx-font-size:12px;-fx-text-fill:#e53935;" text="" />
+
+            <Label styleClass="page-title" text="Police Reports" />
+
+            <TableView fx:id="policeTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="colVehicleReg" prefWidth="130" text="Vehicle Reg" />
+                    <TableColumn fx:id="colDate" prefWidth="110" text="Date" />
+                    <TableColumn fx:id="colType" prefWidth="100" text="Type" />
+                    <TableColumn fx:id="colDesc" prefWidth="200" text="Description" />
+                    <TableColumn fx:id="colOfficer" prefWidth="130" text="Officer" />
+                    <TableColumn fx:id="colStation" prefWidth="130" text="Station" />
+                    <TableColumn fx:id="colCase" prefWidth="110" text="Case No." />
+                </columns>
+                <placeholder>
+                    <Label text="No police reports found." />
+                </placeholder>
+            </TableView>
+
+        </VBox>
+    </HBox>
+</VBox>

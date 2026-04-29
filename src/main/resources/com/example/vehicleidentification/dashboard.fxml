@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="700" minWidth="1200" spacing="0"
+      stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.vehicleidentification.controllers.DashboardController">
+
+    <MenuBar styleClass="menu-bar">
+        <Menu text="File">
+            <MenuItem onAction="#handleExit" text="Exit"/>
+        </Menu>
+        <Menu text="Modules">
+            <MenuItem onAction="#goToDashboard" text="Dashboard"/>
+            <MenuItem onAction="#goToVehicle"   text="Vehicles"/>
+            <MenuItem onAction="#goToCustomer"  text="Customer Panel"/>
+            <MenuItem onAction="#goToWorkshop"  text="Workshop"/>
+            <MenuItem onAction="#goToPolice"    text="Police"/>
+            <MenuItem onAction="#goToViolation" text="Violation"/>
+            <MenuItem onAction="#goToInsurance" text="Insurance"/>
+            <MenuItem onAction="#goToAdmin"     text="User Management"/>
+        </Menu>
+    </MenuBar>
+
+    <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
+        <VBox>
+            <Label styleClass="header-logo"     text="VehicleID System"/>
+            <Label styleClass="header-subtitle" text="Vehicle Identification System"/>
+        </VBox>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button onAction="#goToDashboard"
+                styleClass="nav-btn nav-btn-active"
+                text="Dashboard"/>
+        <Button onAction="#goToVehicle"   styleClass="nav-btn" text="Vehicles"/>
+        <Button onAction="#goToCustomer"  styleClass="nav-btn" text="Customer Panel"/>
+        <Button onAction="#goToWorkshop"  styleClass="nav-btn" text="Workshop"/>
+        <Button onAction="#goToPolice"    styleClass="nav-btn" text="Police"/>
+        <Button onAction="#goToViolation" styleClass="nav-btn" text="Violation"/>
+        <Button onAction="#goToInsurance" styleClass="nav-btn" text="Insurance"/>
+        <Button onAction="#goToAdmin"     styleClass="nav-btn" text="User Management"/>
+        <Button fx:id="logoutButton"
+                onAction="#handleLogout"
+                styleClass="btn-danger"
+                text="Logout"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent;
+                       -fx-background: transparent;">
+        <VBox spacing="30" style="-fx-padding: 30;">
+
+            <VBox spacing="4">
+                <Label fx:id="welcomeLabel"
+                       style="-fx-font-size:22px;-fx-font-weight:bold;
+                              -fx-text-fill:white;"
+                       text="Welcome"/>
+                <Label fx:id="roleLabel"
+                       style="-fx-font-size:13px;-fx-text-fill:white;"
+                       text="Role: —"/>
+            </VBox>
+
+            <Label styleClass="page-title"
+                   style="-fx-text-fill:white;"
+                   text="Dashboard"/>
+
+            <!-- STAT CARDS — RECTANGLES -->
+            <HBox alignment="CENTER" spacing="20">
+
+                <!-- TOTAL VEHICLES -->
+                <VBox alignment="CENTER" spacing="12"
+                      styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label fx:id="totalVehiclesLabel" text="0"
+                           styleClass="stat-number"
+                           style="-fx-text-fill: #1565c0;"/>
+                    <Label text="TOTAL VEHICLES"
+                           styleClass="stat-label"/>
+                    <VBox fx:id="vehiclesBar" maxWidth="Infinity" prefHeight="8"
+                          style="-fx-background-color: #1565c0;
+                                 -fx-background-radius: 4;"/>
+                </VBox>
+
+                <!-- TOTAL CUSTOMERS -->
+                <VBox alignment="CENTER" spacing="12"
+                      styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label fx:id="totalCustomersLabel" text="0"
+                           styleClass="stat-number"
+                           style="-fx-text-fill: #f57f17;"/>
+                    <Label text="TOTAL CUSTOMERS"
+                           styleClass="stat-label"/>
+                    <VBox fx:id="customersBar" maxWidth="Infinity" prefHeight="8"
+                          style="-fx-background-color: #f57f17;
+                                 -fx-background-radius: 4;"/>
+                </VBox>
+
+                <!-- UNPAID VIOLATIONS -->
+                <VBox alignment="CENTER" spacing="12"
+                      styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label fx:id="unpaidFinesLabel" text="0"
+                           styleClass="stat-number"
+                           style="-fx-text-fill: #c62828;"/>
+                    <Label text="UNPAID VIOLATIONS"
+                           styleClass="stat-label"/>
+                    <VBox fx:id="unpaidBar" maxWidth="Infinity" prefHeight="8"
+                          style="-fx-background-color: #c62828;
+                                 -fx-background-radius: 4;"/>
+                </VBox>
+
+                <!-- POLICE REPORTS -->
+                <VBox alignment="CENTER" spacing="12"
+                      styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label fx:id="totalReportsLabel" text="0"
+                           styleClass="stat-number"
+                           style="-fx-text-fill: #2e7d32;"/>
+                    <Label text="POLICE REPORTS"
+                           styleClass="stat-label"/>
+                    <VBox fx:id="reportsBar" maxWidth="Infinity" prefHeight="8"
+                          style="-fx-background-color: #2e7d32;
+                                 -fx-background-radius: 4;"/>
+                </VBox>
+
+            </HBox>
+
+            <VBox spacing="10" styleClass="card">
+                <Label styleClass="form-label" text="System Load"/>
+                <ProgressBar fx:id="progressBar"
+                             maxWidth="Infinity" prefHeight="14"
+                             progress="0.0"
+                             style="-fx-accent: #1565c0;"/>
+                <Label fx:id="progressLabel"
+                       style="-fx-font-size:12px;-fx-text-fill:#5c6bc0;"
+                       text=""/>
+            </VBox>
+
+            <VBox alignment="CENTER_LEFT" spacing="10" styleClass="card">
+                <Label styleClass="form-label" text="Data Sync Status"/>
+                <HBox alignment="CENTER_LEFT" spacing="16">
+                    <ProgressIndicator fx:id="progressIndicator"
+                                       prefHeight="60" prefWidth="60"
+                                       progress="-1"
+                                       style="-fx-progress-color: #1565c0;"/>
+                    <VBox spacing="4">
+                        <Label text="Data Sync Status"
+                               style="-fx-font-size:12px;-fx-text-fill:#9e9e9e;
+                                      -fx-font-weight:bold;"/>
+                        <Label fx:id="syncLabel"
+                               style="-fx-font-size:13px;-fx-text-fill:#424242;"
+                               text="Loading system data..."/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
+</VBox>

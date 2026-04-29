@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.vehicleidentification.controllers.WorkshopController"
+      stylesheets="@styles.css" spacing="0" minWidth="1200" minHeight="700">
+
+    <MenuBar styleClass="menu-bar">
+        <Menu text="File"><MenuItem text="Exit" onAction="#handleExit"/></Menu>
+        <Menu text="Modules">
+            <MenuItem text="Dashboard"       onAction="#goToDashboard"/>
+            <MenuItem text="Vehicles"        onAction="#goToVehicle"/>
+            <MenuItem text="Customer Panel"  onAction="#goToCustomer"/>
+            <MenuItem text="Workshop"        onAction="#goToWorkshop"/>
+            <MenuItem text="Police Report"   onAction="#goToPolice"/>
+            <MenuItem text="Violation"       onAction="#goToViolation"/>
+            <MenuItem text="Insurance"       onAction="#goToInsurance"/>
+            <MenuItem text="User Management" onAction="#goToAdmin"/>
+        </Menu>
+    </MenuBar>
+
+    <HBox styleClass="header" alignment="CENTER_LEFT" spacing="15">
+        <VBox>
+            <Label text="VehicleID System" styleClass="header-logo"/>
+            <Label text="Workshop Panel"   styleClass="header-subtitle"/>
+        </VBox>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="Dashboard"       styleClass="nav-btn"               onAction="#goToDashboard"/>
+        <Button text="Vehicles"        styleClass="nav-btn"               onAction="#goToVehicle"/>
+        <Button text="Customer Panel"  styleClass="nav-btn"               onAction="#goToCustomer"/>
+        <Button text="Workshop"        styleClass="nav-btn nav-btn-active" onAction="#goToWorkshop"/>
+        <Button text="Police Report"   styleClass="nav-btn"               onAction="#goToPolice"/>
+        <Button text="Violation"       styleClass="nav-btn"               onAction="#goToViolation"/>
+        <Button text="Insurance"       styleClass="nav-btn"               onAction="#goToInsurance"/>
+        <Button text="User Management" styleClass="nav-btn"               onAction="#goToAdmin"/>
+        <Button fx:id="logoutButton"   styleClass="btn-logout"            onAction="#handleLogout"
+                text="Logout"/>
+    </HBox>
+
+    <!-- ACCESS DENIED -->
+    <VBox fx:id="accessDeniedPane" alignment="CENTER" spacing="20"
+          style="-fx-padding: 80; -fx-background-color: #ffebee;"
+          VBox.vgrow="ALWAYS" visible="false" managed="false">
+        <Label text="Access Denied"
+               style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #c62828;"/>
+        <Label text="You do not have permission to access the Workshop module."
+               style="-fx-font-size: 14px; -fx-text-fill: #b71c1c;"/>
+        <Button text="Go back to Dashboard" styleClass="btn-danger"
+                onAction="#goToDashboard"/>
+    </VBox>
+
+    <!-- CUSTOMER PANE -->
+    <VBox fx:id="customerPane" spacing="15" style="-fx-padding: 20;"
+          VBox.vgrow="ALWAYS" visible="false" managed="false">
+        <Label text="My Vehicle Service History" styleClass="page-title"
+               style="-fx-text-fill:white;"/>
+        <Label text="Read-only view of service records for your registered vehicles."
+               style="-fx-text-fill: #b0bec5; -fx-font-size: 12px;"/>
+        <Label fx:id="customerMessageLabel" text=""
+               style="-fx-text-fill: #5c6bc0; -fx-font-size: 12px;"/>
+        <TableView fx:id="customerServiceTable" VBox.vgrow="ALWAYS" prefHeight="500"
+                   styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="cColDate" text="Date"         prefWidth="110"/>
+                <TableColumn fx:id="cColType" text="Service Type" prefWidth="160"/>
+                <TableColumn fx:id="cColDesc" text="Description"  prefWidth="300"/>
+                <TableColumn fx:id="cColCost" text="Cost (M)"     prefWidth="120"/>
+            </columns>
+            <placeholder>
+                <Label text="No service records found for your vehicles."/>
+            </placeholder>
+        </TableView>
+    </VBox>
+
+    <!-- MAIN CONTENT -->
+    <VBox fx:id="mainContentPane" VBox.vgrow="ALWAYS" visible="false" managed="false">
+        <HBox spacing="20" style="-fx-padding: 20;" VBox.vgrow="ALWAYS">
+
+            <!-- LEFT FORM — shown to WORKSHOP, hidden from ADMIN -->
+            <ScrollPane fx:id="formPanel" fitToWidth="true" prefWidth="320"
+                        style="-fx-background-color: transparent;
+                               -fx-background: transparent;">
+                <VBox spacing="12" styleClass="card" prefWidth="300">
+                    <Label text="Service Record" styleClass="page-title"/>
+
+                    <Label fx:id="accessInfoLabel" text="" wrapText="true"/>
+
+                    <Label text="Vehicle"      styleClass="form-label"/>
+                    <ComboBox fx:id="vehicleCombo" promptText="Select vehicle..."
+                              styleClass="form-field" maxWidth="Infinity"/>
+                    <Label fx:id="vehicleInfoLabel" text=""
+                           style="-fx-font-size: 11px; -fx-text-fill: #5c6bc0;"
+                           wrapText="true"/>
+
+                    <Label text="Service Date" styleClass="form-label"/>
+                    <DatePicker fx:id="serviceDatePicker" styleClass="form-field"
+                                maxWidth="Infinity"/>
+
+                    <Label text="Service Type" styleClass="form-label"/>
+                    <TextField fx:id="serviceTypeField" promptText="e.g. Oil Change"
+                               styleClass="form-field"/>
+
+                    <Label text="Description"  styleClass="form-label"/>
+                    <TextField fx:id="descriptionField" promptText="Details..."
+                               styleClass="form-field"/>
+
+                    <Label text="Cost (M)"     styleClass="form-label"/>
+                    <TextField fx:id="costField" promptText="0.00"
+                               styleClass="form-field"/>
+
+                    <Separator/>
+
+                    <HBox spacing="8">
+                        <Button fx:id="btnAdd" text="Add"
+                                style="-fx-background-color:#2980b9;-fx-text-fill:white;
+                                       -fx-font-weight:bold;-fx-background-radius:5;
+                                       -fx-padding:9 20;-fx-cursor:hand;"
+                                onAction="#handleAdd"
+                                HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button fx:id="btnUpdate" text="Update"
+                                style="-fx-background-color:#2980b9;-fx-text-fill:white;
+                                       -fx-font-weight:bold;-fx-background-radius:5;
+                                       -fx-padding:9 20;-fx-cursor:hand;"
+                                onAction="#handleUpdate"
+                                HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button fx:id="btnDelete" text="Delete"
+                                styleClass="btn-danger"
+                                onAction="#handleDelete"
+                                HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    </HBox>
+                    <Button fx:id="btnClear" text="Clear"
+                            styleClass="btn-clear"
+                            onAction="#handleClear" maxWidth="Infinity"/>
+
+                    <Label fx:id="messageLabel" text="" wrapText="true"/>
+
+                    <Separator/>
+                    <Label text="Search Records" styleClass="form-label"/>
+                    <TextField fx:id="searchField"
+                               promptText="Search by type or description..."
+                               styleClass="form-field"/>
+                    <HBox spacing="8">
+                        <Button text="Search"
+                                style="-fx-background-color:#2980b9;-fx-text-fill:white;
+                                       -fx-font-weight:bold;-fx-background-radius:5;
+                                       -fx-padding:9 20;-fx-cursor:hand;"
+                                onAction="#handleSearch"
+                                HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button text="Clear" styleClass="btn-clear"
+                                onAction="#handleClearSearch"
+                                HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    </HBox>
+                    <Label fx:id="tableMessageLabel" text="" wrapText="true"/>
+                </VBox>
+            </ScrollPane>
+
+            <!-- RIGHT TABLE -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="All Service Records" styleClass="page-title"
+                       style="-fx-text-fill:white;"/>
+                <TableView fx:id="serviceTable" VBox.vgrow="ALWAYS" prefHeight="600"
+                           styleClass="table-view">
+                    <columns>
+                        <TableColumn fx:id="colId"        text="ID"           prefWidth="50"/>
+                        <TableColumn fx:id="colVehicleId" text="Vehicle ID"   prefWidth="90"/>
+                        <TableColumn fx:id="colDate"      text="Date"         prefWidth="110"/>
+                        <TableColumn fx:id="colType"      text="Service Type" prefWidth="140"/>
+                        <TableColumn fx:id="colDesc"      text="Description"  prefWidth="200"/>
+                        <TableColumn fx:id="colCost"      text="Cost (M)"     prefWidth="90"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No service records found."/>
+                    </placeholder>
+                </TableView>
+            </VBox>
+        </HBox>
+    </VBox>
+</VBox>

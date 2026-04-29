@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane style="-fx-background-color: #0d1b2a;"
+           stylesheets="@styles.css"
+           xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.vehicleidentification.controllers.LoginController">
+
+    <!-- Background AnchorPane with title — DropShadow applied in controller -->
+    <AnchorPane fx:id="bgPane" prefHeight="654.0" prefWidth="1150.0">
+        <Label layoutX="392.0" layoutY="33.0"
+               prefHeight="51.0" prefWidth="449.0"
+               text="VEHICLE IDENTIFICATION SYSTEM"
+               textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="25.0"/>
+            </font>
+        </Label>
+    </AnchorPane>
+
+    <!-- Login Card -->
+    <HBox alignment="CENTER"
+          maxHeight="450" maxWidth="800"
+          minHeight="400" minWidth="700"
+          opacity="0.93" spacing="0"
+          style="-fx-background-color: #1338bf;
+                 -fx-background-radius: 16;"
+          StackPane.alignment="CENTER">
+
+        <VBox alignment="CENTER"
+              maxWidth="380" minWidth="350" prefWidth="380"
+              spacing="10" HBox.hgrow="ALWAYS">
+
+            <padding>
+                <Insets bottom="25" left="25" right="25" top="25"/>
+            </padding>
+
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;
+                          -fx-text-fill: white;"
+                   text="Login to Your Account"/>
+
+            <Separator prefWidth="250"
+                       style="-fx-background-color: #e2e8f0; -fx-pref-height: 1;"/>
+
+            <!-- USER ID -->
+            <VBox maxWidth="Infinity" spacing="3">
+                <Label style="-fx-font-size: 12px; -fx-text-fill: white;
+                               -fx-font-weight: bold;" text="User ID"/>
+                <TextField fx:id="userIdField" maxWidth="Infinity"
+                           promptText="Enter your User ID (e.g. C001, POL01)"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                  -fx-padding: 8; -fx-border-color: #cbd5e1;
+                                  -fx-border-width: 1; -fx-font-size: 12px;"/>
+                <Label style="-fx-font-size: 9px; -fx-text-fill: #94a3b8;"
+                       text="Your User ID is assigned by the Administrator."/>
+            </VBox>
+
+            <!-- PASSWORD -->
+            <VBox maxWidth="Infinity" spacing="3">
+                <Label style="-fx-font-size: 12px; -fx-text-fill: white;
+                               -fx-font-weight: bold;" text="Password"/>
+                <PasswordField fx:id="passwordField" maxWidth="Infinity"
+                               promptText="Enter your password"
+                               style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                      -fx-padding: 8; -fx-border-color: #cbd5e1;
+                                      -fx-border-width: 1; -fx-font-size: 12px;"/>
+            </VBox>
+
+            <!-- ROLE -->
+            <VBox maxWidth="Infinity" spacing="3">
+                <Label style="-fx-font-size: 12px; -fx-text-fill: white;
+                               -fx-font-weight: bold;" text="Role"/>
+                <ComboBox fx:id="roleCombo" maxWidth="Infinity"
+                          promptText="Select your role"
+                          style="-fx-background-radius: 8; -fx-border-radius: 8;
+                                 -fx-padding: 3; -fx-border-color: #cbd5e1;
+                                 -fx-border-width: 1; -fx-font-size: 12px;"/>
+            </VBox>
+
+            <!-- BUTTONS — fx:id added for effects in controller -->
+            <HBox alignment="CENTER" maxWidth="Infinity" spacing="12">
+                <Button fx:id="loginButton"
+                        onAction="#handleLogin"
+                        prefWidth="140"
+                        style="-fx-background-color: #1e3a8a; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-font-weight: bold;
+                               -fx-background-radius: 8; -fx-padding: 8;
+                               -fx-cursor: hand;"
+                        text="Sign in now"/>
+                <Button fx:id="clearButton"
+                        onAction="#handleClear"
+                        prefWidth="140"
+                        style="-fx-background-color: #ef4444; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-font-weight: bold;
+                               -fx-background-radius: 8; -fx-padding: 8;
+                               -fx-cursor: hand;"
+                        text="Clear"/>
+            </HBox>
+
+            <!-- STATUS -->
+            <Label fx:id="statusLabel" alignment="CENTER"
+                   maxWidth="Infinity"
+                   style="-fx-font-size: 11px; -fx-text-fill: #dc2626;"
+                   text="" wrapText="true"/>
+        </VBox>
+    </HBox>
+</StackPane>

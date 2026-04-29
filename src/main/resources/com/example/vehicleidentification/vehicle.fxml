@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="700" minWidth="1200" spacing="0" style="-fx-background-color: transparent;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vehicleidentification.controllers.VehicleController">
+
+    <MenuBar styleClass="menu-bar">
+        <Menu text="File">
+            <MenuItem onAction="#handleExit" text="Exit" />
+        </Menu>
+        <Menu text="Modules">
+            <MenuItem onAction="#goToDashboard" text="Dashboard" />
+            <MenuItem onAction="#goToVehicle" text="Vehicles" />
+            <MenuItem onAction="#goToCustomer" text="Customer Panel" />
+            <MenuItem onAction="#goToWorkshop" text="Workshop" />
+            <MenuItem onAction="#goToPolice" text="Police Reports" />
+            <MenuItem onAction="#goToViolation" text="Violation" />
+            <MenuItem onAction="#goToInsurance" text="Insurance" />
+            <MenuItem onAction="#goToAdmin" text="User Management" />
+        </Menu>
+    </MenuBar>
+
+    <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #1338bf;" styleClass="header">
+        <VBox>
+            <Label styleClass="header-logo" text="VehicleID System" />
+            <Label styleClass="header-subtitle" text="Vehicle Identification System" />
+        </VBox>
+        <HBox HBox.hgrow="ALWAYS" />
+        <Button onAction="#goToDashboard" styleClass="nav-btn" text="Dashboard" />
+        <Button onAction="#goToVehicle" styleClass="nav-btn nav-btn-active" text="Vehicles" />
+        <Button onAction="#goToCustomer" styleClass="nav-btn" text="Customer Panel" />
+        <Button onAction="#goToWorkshop" styleClass="nav-btn" text="Workshop" />
+        <Button onAction="#goToPolice" styleClass="nav-btn" text="Police Reports" />
+        <Button onAction="#goToViolation" styleClass="nav-btn" text="Violation" />
+        <Button onAction="#goToInsurance" styleClass="nav-btn" text="Insurance" />
+        <Button onAction="#goToAdmin" styleClass="nav-btn" text="User Management" />
+        <Button onAction="#handleLogout" styleClass="btn-danger" text="Logout" />
+    </HBox>
+
+    <VBox fx:id="accessDeniedPane" alignment="CENTER" managed="false" spacing="20" style="-fx-padding: 80; -fx-background-color: #ffebee;" visible="false" VBox.vgrow="ALWAYS">
+        <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #c62828;" text="Access Denied" />
+        <Label style="-fx-font-size: 14px; -fx-text-fill: #555;" text="Your role does not have permission to view this module." />
+        <Button onAction="#goToDashboard" styleClass="btn-danger" text="Go to Dashboard" />
+    </VBox>
+
+    <HBox fx:id="mainContentPane" managed="false" spacing="0" visible="false" VBox.vgrow="ALWAYS">
+
+        <VBox minWidth="300" prefWidth="320" spacing="0" style="-fx-background-color: #1a237e; -fx-padding: 0;" styleClass="card">
+
+            <VBox style="-fx-padding: 20 20 15 20; -fx-background-color: TRANSPARENT;">
+                <Label style="-fx-font-size: 16px; -fx-background-color: TRANSPARENT; -fx-font-weight: bold; -fx-text-fill: white;" text="Vehicle Management" />
+                <Label fx:id="roleAccessLabel" style="-fx-font-size: 11px; -fx-text-fill: #90caf9;                               -fx-padding: 4 0 0 0;" text="Admin Access" />
+            </VBox>
+
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;                                -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                <VBox spacing="10" style="-fx-padding: 20; -fx-background-color: white;">
+
+                    <Label style="-fx-text-fill: #90caf9; -fx-font-size: 11px; -fx-font-weight: bold;" text="Registration No. *" />
+                    <TextField fx:id="regField" promptText="e.g. ABC 123 GP" style="-fx-text-fill: #7986cb; -fx-prompt-text-fill: #7986cb; -fx-border-color: #3949ab; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8;" styleClass="form-field" />
+
+                    <Label style="-fx-text-fill: #90caf9; -fx-font-size: 11px;                                   -fx-font-weight: bold;" text="Make *" />
+                    <TextField fx:id="makeField" promptText="e.g. Toyota" style="-fx-text-fill: #7986cb; -fx-prompt-text-fill: #7986cb; -fx-border-color: #3949ab; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8;" styleClass="form-field" />
+
+                    <Label style="-fx-text-fill: #90caf9; -fx-font-size: 11px;                                   -fx-font-weight: bold;" text="Model *" />
+                    <TextField fx:id="modelField" promptText="e.g. Corolla" style="-fx-text-fill: #7986cb; -fx-prompt-text-fill: #7986cb; -fx-border-color: #3949ab; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8;" styleClass="form-field" />
+
+                    <Label style="-fx-text-fill: #90caf9; -fx-font-size: 11px;                                   -fx-font-weight: bold;" text="Year *" />
+                    <TextField fx:id="yearField" promptText="e.g. 2022" style="-fx-text-fill: #7986cb; -fx-prompt-text-fill: #7986cb; -fx-border-color: #3949ab; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8;" styleClass="form-field" />
+
+                    <Label style="-fx-text-fill: #90caf9; -fx-font-size: 11px;                                   -fx-font-weight: bold;" text="Color" />
+                    <TextField fx:id="colorField" promptText="e.g. White" style="-fx-text-fill: #7986cb; -fx-prompt-text-fill: #7986cb; -fx-border-color: #3949ab; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8;" styleClass="form-field" />
+
+                    <Label style="-fx-text-fill: #90caf9; -fx-font-size: 11px;                                   -fx-font-weight: bold;" text="Chassis Number" />
+                    <TextField fx:id="chassisField" promptText="e.g. JT2AE09W..." style="-fx-text-fill: #7986cb; -fx-prompt-text-fill: #7986cb; -fx-border-color: #3949ab; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8;" styleClass="form-field" />
+
+                    <Label style="-fx-text-fill: #90caf9; -fx-font-size: 11px;                                   -fx-font-weight: bold;" text="Owner (Customer) *" />
+                    <ComboBox fx:id="ownerCombo" maxWidth="Infinity" promptText="Select customer owner..." style="-fx-text-fill: #7986cb; -fx-border-color: #3949ab; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 4;" />
+                    <Label fx:id="ownerInfoLabel" style="-fx-font-size: 11px; -fx-text-fill: #80cbc4;                                   -fx-padding: 2 0 0 2;" text="" wrapText="true" />
+
+                    <Separator style="-fx-padding: 5 0;" />
+
+                    <VBox fx:id="adminButtonsPane" spacing="8">
+                        <Button fx:id="btnAdd" maxWidth="Infinity" onAction="#handleAdd" style="-fx-background-color: #00008B; -fx-text-fill: white;                                        -fx-font-weight: bold; -fx-font-size: 13px;                                        -fx-background-radius: 8; -fx-padding: 10;                                        -fx-cursor: hand;" text="Add Vehicle" />
+                        <Button fx:id="btnUpdate" maxWidth="Infinity" onAction="#handleUpdate" style="-fx-background-color: #00008B; -fx-text-fill: white;                                        -fx-font-weight: bold; -fx-font-size: 13px;                                        -fx-background-radius: 8; -fx-padding: 10;                                        -fx-cursor: hand;" text="Update Vehicle" />
+                        <Button fx:id="btnDelete" maxWidth="Infinity" onAction="#handleDelete" style="-fx-background-color: #c62828; -fx-text-fill: white;                                        -fx-font-weight: bold; -fx-font-size: 13px;                                        -fx-background-radius: 8; -fx-padding: 10;                                        -fx-cursor: hand;" text="  Delete Vehicle" />
+                    </VBox>
+
+                    <VBox fx:id="readOnlyNoticePane" managed="false" spacing="6" style="-fx-background-color: #283593; -fx-background-radius: 8;                                  -fx-padding: 12; -fx-border-color: #3949ab;                                  -fx-border-radius: 8;" visible="false">
+                        <Label style="-fx-text-fill: #ffcc02; -fx-font-weight: bold;                                       -fx-font-size: 13px;" text=" View Only" />
+                        <Label fx:id="readOnlyLabel" style="-fx-text-fill: #90caf9; -fx-font-size: 11px;" text="Your role can only view vehicle records." wrapText="true" />
+                    </VBox>
+
+                    <Button maxWidth="Infinity" onAction="#handleClearForm" style="-fx-background-color: #e0e0e0; -fx-text-fill: #333; -fx-background-radius: 8; -fx-padding: 8; -fx-cursor: hand;" text="Clear Form" />
+
+                    <Label fx:id="messageLabel" style="-fx-font-size: 12px; -fx-padding: 4 0;" text="" wrapText="true" />
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+
+        <VBox spacing="12" style="-fx-padding: 20; -fx-background-color: #f5f7ff;" HBox.hgrow="ALWAYS">
+
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label fx:id="roleBadgeLabel" style="-fx-font-size: 12px; -fx-font-weight: bold;                               -fx-text-fill: white; -fx-background-color: #1a237e;                               -fx-padding: 5 14; -fx-background-radius: 20;" text="Viewing as: ADMIN" />
+                <HBox HBox.hgrow="ALWAYS" />
+                <TextField fx:id="searchField" prefWidth="350" promptText="  Search by registration, make or model..." style="-fx-background-radius: 20; -fx-border-radius: 20;                                   -fx-border-color: #c5cae9; -fx-padding: 7 14;                                   -fx-font-size: 13px;" />
+                <Button onAction="#handleSearch" style=" -fx-text-fill: white;                                -fx-background-radius: 20; -fx-padding: 7 18;                                -fx-font-weight: bold; -fx-cursor: hand;" text="Search" />
+                <Button onAction="#handleClearSearch" style=" -fx-text-fill: WHITE;                                -fx-background-radius: 20; -fx-padding: 7 14;                                -fx-cursor: hand;" text="Clear" />
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;                               -fx-text-fill: #1a237e;" text="Registered Vehicles" />
+                <Label fx:id="tableMessageLabel" style="-fx-font-size: 12px; -fx-text-fill: #e53935;" text="" wrapText="true" />
+            </HBox>
+
+            <TableView fx:id="vehicleTable" style="-fx-background-color: white; -fx-background-radius: 12;                               -fx-border-color: #e8eaf6; -fx-border-radius: 12;                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="55" text="ID" />
+                    <TableColumn fx:id="colReg" prefWidth="140" text="Reg. Number" />
+                    <TableColumn fx:id="colMake" prefWidth="110" text="Make" />
+                    <TableColumn fx:id="colModel" prefWidth="110" text="Model" />
+                    <TableColumn fx:id="colYear" prefWidth="65" text="Year" />
+                    <TableColumn fx:id="colColor" prefWidth="85" text="Color" />
+                    <TableColumn fx:id="colChassis" prefWidth="140" text="Chassis No." />
+                    <TableColumn fx:id="colOwner" prefWidth="90" text="Owner ID" />
+                </columns>
+                <placeholder>
+                    <Label style="-fx-font-size: 14px; -fx-text-fill: #9e9e9e;" text="No vehicles found." />
+                </placeholder>
+            </TableView>
+
+        </VBox>
+    </HBox>
+</VBox>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="700" minWidth="1200" spacing="0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vehicleidentification.controllers.CustomerController">
+
+    <MenuBar styleClass="menu-bar">
+        <Menu text="File">
+            <MenuItem onAction="#handleExit" text="Exit" />
+        </Menu>
+        <Menu text="Modules">
+            <MenuItem onAction="#goToDashboard" text="Dashboard" />
+            <MenuItem onAction="#goToVehicle" text="Vehicles" />
+            <MenuItem onAction="#goToCustomer" text="Customer Panel" />
+            <MenuItem onAction="#goToWorkshop" text="Workshop" />
+            <MenuItem onAction="#goToPolice" text="Police Reports" />
+            <MenuItem onAction="#goToViolation" text="Violation" />
+            <MenuItem onAction="#goToInsurance" text="Insurance" />
+            <MenuItem onAction="#goToAdmin" text="User Management" />
+        </Menu>
+    </MenuBar>
+
+    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #1338bf;" styleClass="header">
+        <VBox>
+            <Label styleClass="header-logo" text="VehicleID System" />
+            <Label styleClass="header-subtitle" text="Customer Panel" />
+        </VBox>
+        <HBox HBox.hgrow="ALWAYS" />
+        <Button onAction="#goToDashboard" styleClass="nav-btn" text="Dashboard" />
+        <Button onAction="#goToVehicle" styleClass="nav-btn" text="Vehicles" />
+        <Button onAction="#goToCustomer" styleClass="nav-btn nav-btn-active" text="Customer Panel" />
+        <Button onAction="#goToWorkshop" styleClass="nav-btn" text="Workshop" />
+        <Button onAction="#goToPolice" styleClass="nav-btn" text="Police Reports" />
+        <Button onAction="#goToViolation" styleClass="nav-btn" text="Violation" />
+        <Button onAction="#goToInsurance" styleClass="nav-btn" text="Insurance" />
+        <Button onAction="#goToAdmin" styleClass="nav-btn" text="User Management" />
+        <!-- fx:id="logoutButton" for DropShadow + FadeTransition -->
+        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="btn-danger" text="Logout" />
+    </HBox>
+
+    <!-- ACCESS DENIED -->
+    <VBox fx:id="accessDeniedPane" alignment="CENTER" managed="false" spacing="20" style="-fx-padding:80;-fx-background-color:#ffebee;" visible="false" VBox.vgrow="ALWAYS">
+        <Label style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#c62828;" text="Access Denied" />
+        <Label style="-fx-font-size:14px;-fx-text-fill:#b71c1c;" text="Only Customers and Admins can access this page." />
+        <Button onAction="#goToDashboard" styleClass="btn-danger" text="Go Back to Dashboard" />
+    </VBox>
+
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+        <VBox fx:id="mainContentPane" managed="false" spacing="0" visible="false">
+
+            <!-- WELCOME HEADER -->
+            <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding:20 20 10 20;">
+                <VBox spacing="4">
+                    <Label fx:id="welcomeLabel" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" text="Welcome" />
+                    <Label fx:id="roleLabel" style="-fx-font-size: 13px; -fx-text-fill: white;" text="Role: CUSTOMER" />
+                </VBox>
+                <HBox HBox.hgrow="ALWAYS" />
+                <VBox alignment="CENTER" spacing="4" style="-fx-min-width:130;-fx-padding:12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #666; -fx-font-weight: bold;" text="My Vehicles" />
+                    <Label fx:id="totalVehiclesLabel" style="-fx-font-size:28px;-fx-font-weight:bold;-fx-text-fill:#1565c0;" text="0" />
+                </VBox>
+                <VBox alignment="CENTER" spacing="4" style="-fx-min-width:160;-fx-padding:12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #666; -fx-font-weight: bold;" text="Unpaid Violations" />
+                    <Label fx:id="unpaidBreachesLabel" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: red;" text="0" />
+                </VBox>
+            </HBox>
+
+            <!-- ADMIN PANE -->
+            <VBox fx:id="adminPane" managed="false" spacing="15" style="-fx-padding:0 20 20 20;" visible="false">
+
+                <Label style="-fx-text-fill: white;" styleClass="page-title" text="Customer Management" />
+
+                <HBox spacing="20" VBox.vgrow="ALWAYS">
+
+                    <!-- LEFT: CREATE / EDIT FORM -->
+                    <ScrollPane fitToWidth="true" prefWidth="360" style="-fx-background-color:transparent;-fx-background:transparent;">
+                        <VBox prefWidth="340" spacing="10" styleClass="card">
+                            <Label style="-fx-font-weight:bold; -fx-font-size:14px;" styleClass="form-label" text="Create / Edit Customer" />
+
+                            <Label styleClass="form-label" text="Full Name" />
+                            <TextField fx:id="adminNameField" promptText="Full name" styleClass="form-field" />
+
+                            <Label styleClass="form-label" text="Address" />
+                            <TextField fx:id="adminAddressField" promptText="Address" styleClass="form-field" />
+
+                            <Label styleClass="form-label" text="Phone" />
+                            <TextField fx:id="adminPhoneField" promptText="Phone (8-15 digits)" styleClass="form-field" />
+
+                            <Label styleClass="form-label" text="Email" />
+                            <TextField fx:id="adminEmailField" promptText="user@example.com" styleClass="form-field" />
+
+                            <Separator />
+
+                            <!-- CREATE LOGIN ACCOUNT CHECKBOX -->
+                            <CheckBox fx:id="createLoginCheckbox" onAction="#handleLoginCheckboxToggle" style="-fx-font-weight:bold;-fx-text-fill:#1a237e;" text="Create Login Account" />
+
+                            <!-- Login fields — shown only when checkbox ticked -->
+                            <VBox fx:id="loginFieldsPane" managed="false" spacing="8" style="-fx-background-color:#e8eaf6;-fx-padding:10;                                          -fx-background-radius:6;-fx-border-radius:6;                                          -fx-border-color:#c5cae9;-fx-border-width:1;" visible="false">
+                                <Label style="-fx-font-size:11px;-fx-text-fill:#555;" text="Login Credentials (new customers only)" wrapText="true" />
+
+                                <Label styleClass="form-label" text="User ID (e.g. CUST005)" />
+                                <TextField fx:id="adminUsernameField" promptText="e.g. CUST005" styleClass="form-field" />
+
+                                <Label styleClass="form-label" text="Password" />
+                                <TextField fx:id="adminPasswordField" promptText="Minimum 4 characters" styleClass="form-field" />
+                            </VBox>
+
+                            <HBox spacing="8">
+                                <Button maxWidth="Infinity" onAction="#handleAdminCreate" style="-fx-background-color: #1338bf #1338bf" styleClass="btn-primary" text="Create" HBox.hgrow="ALWAYS" />
+                                <Button maxWidth="Infinity" onAction="#handleAdminUpdate" style="-fx-background-color: #1338bf #1338bf" styleClass="btn-warning" text="Update" HBox.hgrow="ALWAYS" />
+                                <Button maxWidth="Infinity" onAction="#handleAdminDelete" styleClass="btn-danger" text="Delete" HBox.hgrow="ALWAYS" />
+                            </HBox>
+
+                            <Button maxWidth="Infinity" onAction="#handleAdminClearForm" style="-fx-background-color:#b0bec5;-fx-text-fill:#263238;                                            -fx-font-weight:bold;-fx-background-radius:5;                                            -fx-cursor:hand;" text="Clear" />
+
+                            <Label fx:id="adminMessageLabel" text="" wrapText="true" />
+                        </VBox>
+                    </ScrollPane>
+
+                    <!-- RIGHT: TABLES -->
+                    <VBox spacing="10" HBox.hgrow="ALWAYS">
+
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <TextField fx:id="adminSearchField" promptText="Search by name or email..." styleClass="form-field" HBox.hgrow="ALWAYS" />
+                            <Button onAction="#handleAdminSearch" styleClass="btn-primary" text="Search" />
+                            <Button onAction="#handleAdminClearSearch" styleClass="btn-warning" text="Clear" />
+                        </HBox>
+
+                        <Label style="-fx-text-fill:white;" styleClass="page-title" text="All Customers" />
+                        <TableView fx:id="adminCustomerTable" prefHeight="240" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="colCustId" prefWidth="50" text="ID" />
+                                <TableColumn fx:id="colCustName" prefWidth="140" text="Name" />
+                                <TableColumn fx:id="colCustEmail" prefWidth="160" text="Email" />
+                                <TableColumn fx:id="colCustPhone" prefWidth="110" text="Phone" />
+                                <TableColumn fx:id="colCustAddress" prefWidth="140" text="Address" />
+                                <TableColumn fx:id="colCustLoginAccess" prefWidth="160" text="Login Access" />
+                            </columns>
+                            <placeholder><Label text="No customers found." /></placeholder>
+                        </TableView>
+
+                        <Label style="-fx-text-fill:white;" styleClass="page-title" text="Customer Queries" />
+                        <TableView fx:id="adminQueryTable" prefHeight="180" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="colAdminQueryId" prefWidth="50" text="ID" />
+                                <TableColumn fx:id="colAdminQueryDate" prefWidth="110" text="Date" />
+                                <TableColumn fx:id="colAdminQueryText" prefWidth="280" text="Query" />
+                                <TableColumn fx:id="colAdminQueryStatus" prefWidth="100" text="Status" />
+                            </columns>
+                            <placeholder><Label text="No queries." /></placeholder>
+                        </TableView>
+
+                        <Label style="-fx-text-fill:white;" styleClass="form-label" text="Write Response:" />
+                        <TextArea fx:id="adminResponseArea" prefHeight="70" promptText="Type response here..." style="-fx-border-color:#c5cae9;-fx-border-radius:5;                                          -fx-background-radius:5;-fx-font-size:13px;" wrapText="true" />
+                        <HBox spacing="10">
+                            <Button onAction="#handleRespondToQuery" styleClass="btn-primary" text="Send Response" />
+                            <Label fx:id="adminQueryMessageLabel" text="" />
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- CUSTOMER PANE -->
+            <VBox fx:id="customerPane" managed="false" spacing="0" visible="false">
+                <TabPane fx:id="tabPane" style="-fx-padding:0 20 20 20;-fx-tab-min-width:130;" tabClosingPolicy="UNAVAILABLE">
+
+                    <Tab closable="false" text="My Vehicles">
+                        <VBox spacing="10" style="-fx-padding:15;">
+                            <Label style="-fx-text-fill:white;" styleClass="page-title" text="My Registered Vehicles" />
+                            <TableView fx:id="vehicleTable" prefHeight="350" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="colReg" prefWidth="150" text="Reg. Number" />
+                                    <TableColumn fx:id="colMake" prefWidth="110" text="Make" />
+                                    <TableColumn fx:id="colModel" prefWidth="110" text="Model" />
+                                    <TableColumn fx:id="colYear" prefWidth="70" text="Year" />
+                                    <TableColumn fx:id="colColor" prefWidth="90" text="Color" />
+                                </columns>
+                                <placeholder><Label text="No vehicles found." /></placeholder>
+                            </TableView>
+                        </VBox>
+                    </Tab>
+
+                    <Tab closable="false" text="Service History">
+                        <VBox spacing="10" style="-fx-padding:15;">
+                            <Label style="-fx-text-fill:white;" styleClass="page-title" text="Service History" />
+                            <TableView fx:id="serviceTable" prefHeight="350" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="colServiceDate" prefWidth="110" text="Date" />
+                                    <TableColumn fx:id="colServiceType" prefWidth="150" text="Service Type" />
+                                    <TableColumn fx:id="colServiceDesc" prefWidth="250" text="Description" />
+                                    <TableColumn fx:id="colServiceCost" prefWidth="100" text="Cost" />
+                                </columns>
+                                <placeholder><Label text="No service records." /></placeholder>
+                            </TableView>
+                        </VBox>
+                    </Tab>
+
+                    <Tab closable="false" text="Violation">
+                        <VBox spacing="10" style="-fx-padding:15;">
+                            <Label style="-fx-text-fill:white;" styleClass="page-title" text="Violation" />
+                            <TableView fx:id="violationTable" prefHeight="350" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="colVDate" prefWidth="110" text="Date" />
+                                    <TableColumn fx:id="colVType" prefWidth="150" text="Type" />
+                                    <TableColumn fx:id="colVFine" prefWidth="100" text="Fine" />
+                                    <TableColumn fx:id="colVStatus" prefWidth="100" text="Status" />
+                                </columns>
+                                <placeholder><Label text="No violations." /></placeholder>
+                            </TableView>
+                        </VBox>
+                    </Tab>
+
+                    <Tab closable="false" text="Insurance">
+                        <VBox spacing="10" style="-fx-padding:15;">
+                            <Label style="-fx-text-fill:white;" styleClass="page-title" text="My Insurance Policies" />
+                            <TableView fx:id="insuranceTable" prefHeight="350" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="colInsProvider" prefWidth="160" text="Provider" />
+                                    <TableColumn fx:id="colInsStart" prefWidth="110" text="Start" />
+                                    <TableColumn fx:id="colInsEnd" prefWidth="110" text="End" />
+                                    <TableColumn fx:id="colInsPremium" prefWidth="110" text="Premium" />
+                                    <TableColumn fx:id="colInsStatus" prefWidth="90" text="Status" />
+                                    <TableColumn fx:id="colInsDaysLeft" prefWidth="90" text="Days Left" />
+                                </columns>
+                                <placeholder><Label text="No insurance policies." /></placeholder>
+                            </TableView>
+                        </VBox>
+                    </Tab>
+
+                    <Tab closable="false" text="My Queries">
+                        <VBox spacing="12" style="-fx-padding:15;">
+                            <Label style="-fx-text-fill: white;" styleClass="page-title" text="Submit a Query" />
+                            <Label style="-fx-text-fill:white;" styleClass="form-label" text="Select Vehicle" />
+                            <ComboBox fx:id="queryVehicleCombo" maxWidth="400" promptText="Select your vehicle..." styleClass="form-field" />
+                            <Label style="-fx-text-fill:white;" styleClass="form-label" text="Your Query" />
+                            <TextArea fx:id="queryTextArea" prefHeight="80" promptText="Describe your query..." style="-fx-border-color:#c5cae9;-fx-border-radius:5;                                              -fx-background-radius:5;-fx-font-size:13px;" wrapText="true" />
+                            <HBox spacing="10">
+                                <Button onAction="#handleSubmitQuery" style="-fx-background-color: #2980b9; -fx-text-fill: white;" styleClass="btn-warning" text="Submit Query" />
+                            </HBox>
+                            <Label fx:id="queryMessageLabel" text="" wrapText="true" />
+                            <Separator />
+                            <Label style="-fx-text-fill:white;" styleClass="page-title" text="My Previous Queries" />
+                            <TableView fx:id="queryTable" prefHeight="220" styleClass="table-view">
+                                <columns>
+                                    <TableColumn fx:id="colQueryDate" prefWidth="110" text="Date" />
+                                    <TableColumn fx:id="colQueryText" prefWidth="220" text="Query" />
+                                    <TableColumn fx:id="colQueryResponse" prefWidth="220" text="Response" />
+                                    <TableColumn fx:id="colQueryStatus" prefWidth="90" text="Status" />
+                                </columns>
+                                <placeholder><Label text="No queries yet." /></placeholder>
+                            </TableView>
+                        </VBox>
+                    </Tab>
+
+                </TabPane>
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
+</VBox>
