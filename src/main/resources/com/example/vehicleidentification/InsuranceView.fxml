@@ -68,154 +68,157 @@
     </VBox>
 
     <!-- MAIN CONTENT -->
-    <VBox fx:id="mainContentPane" managed="false" visible="false" VBox.vgrow="ALWAYS">
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent;">
+        <VBox fx:id="mainContentPane" managed="false" visible="false">
 
-        <!-- Role Badge -->
-        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 20 0 20;">
-            <Label fx:id="roleBadgeLabel"
-                   style="-fx-font-size: 12px; -fx-font-weight: bold;
-                          -fx-text-fill: white; -fx-background-color: #1a237e;
-                          -fx-padding: 5 14; -fx-background-radius: 20;"
-                   text="Role: —"/>
-        </HBox>
+            <!-- Role Badge -->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 20 0 20;">
+                <Label fx:id="roleBadgeLabel"
+                       style="-fx-font-size: 12px; -fx-font-weight: bold;
+                              -fx-text-fill: white; -fx-background-color: #1a237e;
+                              -fx-padding: 5 14; -fx-background-radius: 20;"
+                       text="Role: —"/>
+            </HBox>
 
-        <!-- Summary Cards -->
-        <HBox alignment="CENTER_LEFT" spacing="20"
-              style="-fx-padding: 15 20 5 20;">
-            <VBox alignment="CENTER" spacing="4"
-                  style="-fx-min-width: 150; -fx-padding: 12;" styleClass="card">
-                <Label style="-fx-font-size: 11px; -fx-text-fill: Black;
-                              -fx-font-weight: bold;" text="Total Policies"/>
-                <Label fx:id="totalPoliciesLabel"
-                       style="-fx-font-size: 26px; -fx-font-weight: bold;
-                              -fx-text-fill: #00008B;" text="0"/>
-            </VBox>
-            <VBox alignment="CENTER" spacing="4"
-                  style="-fx-min-width: 150; -fx-padding: 12;" styleClass="card">
-                <Label style="-fx-font-size: 11px; -fx-text-fill: black;
-                              -fx-font-weight: bold;" text="Active"/>
-                <Label fx:id="activePoliciesLabel"
-                       style="-fx-font-size: 26px; -fx-font-weight: bold;
-                              -fx-text-fill: teal;" text="0"/>
-            </VBox>
-            <VBox alignment="CENTER" spacing="4"
-                  style="-fx-min-width: 150; -fx-padding: 12;" styleClass="card">
-                <Label style="-fx-font-size: 11px; -fx-text-fill: black;
-                              -fx-font-weight: bold;" text="Expired"/>
-                <Label fx:id="expiredPoliciesLabel"
-                       style="-fx-font-size: 26px; -fx-font-weight: bold;
-                              -fx-text-fill: red;" text="0"/>
-            </VBox>
-            <HBox HBox.hgrow="ALWAYS"/>
-            <Button onAction="#filterAll"     styleClass="btn-primary" text="Show All"/>
-            <Button onAction="#filterActive"  styleClass="btn-primary" text="Active Only"/>
-            <Button onAction="#filterExpired" styleClass="btn-danger"  text="Expired Only"/>
-        </HBox>
+            <!-- Summary Cards -->
+            <HBox alignment="CENTER_LEFT" spacing="20"
+                  style="-fx-padding: 15 20 5 20;">
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 150; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: Black;
+                                  -fx-font-weight: bold;" text="Total Policies"/>
+                    <Label fx:id="totalPoliciesLabel"
+                           style="-fx-font-size: 26px; -fx-font-weight: bold;
+                                  -fx-text-fill: #00008B;" text="0"/>
+                </VBox>
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 150; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: black;
+                                  -fx-font-weight: bold;" text="Active"/>
+                    <Label fx:id="activePoliciesLabel"
+                           style="-fx-font-size: 26px; -fx-font-weight: bold;
+                                  -fx-text-fill: teal;" text="0"/>
+                </VBox>
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 150; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: black;
+                                  -fx-font-weight: bold;" text="Expired"/>
+                    <Label fx:id="expiredPoliciesLabel"
+                           style="-fx-font-size: 26px; -fx-font-weight: bold;
+                                  -fx-text-fill: red;" text="0"/>
+                </VBox>
+                <HBox HBox.hgrow="ALWAYS"/>
+                <Button onAction="#filterAll"     styleClass="btn-primary" text="Show All"/>
+                <Button onAction="#filterActive"  styleClass="btn-primary" text="Active Only"/>
+                <Button onAction="#filterExpired" styleClass="btn-danger"  text="Expired Only"/>
+            </HBox>
 
-        <!-- Search Bar -->
-        <HBox alignment="CENTER_LEFT" spacing="10"
-              style="-fx-padding: 5 20 10 20;">
-            <TextField fx:id="searchField"
-                       promptText="Search by vehicle registration or policy number..."
-                       styleClass="form-field" HBox.hgrow="ALWAYS"/>
-            <Button onAction="#handleSearch"      styleClass="btn-primary" text="Search"/>
-            <Button onAction="#handleClearSearch"
-                    style="-fx-background-color:#eceff1;-fx-text-fill:#424242;
-                           -fx-font-size:13px;-fx-padding:9 20;
-                           -fx-background-radius:5;-fx-cursor:hand;
-                           -fx-font-weight:bold;" text="Clear"/>
-        </HBox>
-
-        <HBox spacing="20" style="-fx-padding: 0 20 20 20;" VBox.vgrow="ALWAYS">
-
-            <!-- LEFT: FORM — hidden for ADMIN/CUSTOMER -->
-            <VBox fx:id="formPanel" spacing="12" styleClass="card" prefWidth="320">
-                <Label styleClass="page-title" text="Insurance Record"/>
-
-                <Label styleClass="form-label" text="Vehicle"/>
-                <ComboBox fx:id="vehicleCombo" maxWidth="Infinity"
-                          promptText="Select vehicle..." styleClass="form-field"/>
-                <Label fx:id="vehicleInfoLabel" text=""
-                       style="-fx-font-size: 11px; -fx-text-fill: #5c6bc0;"
-                       wrapText="true"/>
-
-                <Label styleClass="form-label" text="Policy Number"/>
-                <TextField fx:id="policyField"
-                           promptText="e.g. POL-2024-001" styleClass="form-field"/>
-
-                <Label styleClass="form-label" text="Insurance Company"/>
-                <TextField fx:id="providerField"
-                           promptText="e.g. Lesotho National Insurance"
-                           styleClass="form-field"/>
-
-                <Label styleClass="form-label" text="Coverage Type"/>
-                <TextField fx:id="coverageTypeField"
-                           promptText="e.g. Comprehensive" styleClass="form-field"/>
-
-                <Label styleClass="form-label" text="Start Date"/>
-                <DatePicker fx:id="startDatePicker"
-                            maxWidth="Infinity" styleClass="form-field"/>
-
-                <Label styleClass="form-label" text="Expiry Date"/>
-                <DatePicker fx:id="endDatePicker"
-                            maxWidth="Infinity" styleClass="form-field"/>
-
-                <Label styleClass="form-label" text="Status"/>
-                <ComboBox fx:id="statusCombo" maxWidth="Infinity"
-                          promptText="Select status" styleClass="form-field"/>
-
-                <Label styleClass="form-label" text="Premium Amount (M)"/>
-                <TextField fx:id="premiumField"
-                           promptText="e.g. 5000.00" styleClass="form-field"/>
-
-                <Label fx:id="daysLeftLabel" text=""
-                       style="-fx-font-size: 12px; -fx-font-weight: bold;"
-                       wrapText="true"/>
-
-                <Separator/>
-                <HBox spacing="8">
-                    <Button fx:id="btnAdd" maxWidth="Infinity" onAction="#handleAdd"
-                            styleClass="btn-primary" text="Add"
-                            HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="btnUpdate" maxWidth="Infinity" onAction="#handleUpdate"
-                            styleClass="btn-primary" text="Update"
-                            HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="btnDelete" maxWidth="Infinity"
-                            onAction="#handleDelete" styleClass="btn-danger"
-                            text="Delete" HBox.hgrow="ALWAYS"/>
-                </HBox>
-                <Button fx:id="btnClear" maxWidth="Infinity" onAction="#handleClear"
+            <!-- Search Bar -->
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 5 20 10 20;">
+                <TextField fx:id="searchField"
+                           promptText="Search by vehicle registration or policy number..."
+                           styleClass="form-field" HBox.hgrow="ALWAYS"/>
+                <Button onAction="#handleSearch"      styleClass="btn-primary" text="Search"/>
+                <Button onAction="#handleClearSearch"
                         style="-fx-background-color:#eceff1;-fx-text-fill:#424242;
                                -fx-font-size:13px;-fx-padding:9 20;
                                -fx-background-radius:5;-fx-cursor:hand;
-                               -fx-font-weight:bold;" text="Clear Form"/>
-                <Label fx:id="messageLabel" text="" wrapText="true"/>
-            </VBox>
+                               -fx-font-weight:bold;" text="Clear"/>
+            </HBox>
 
-            <!-- RIGHT: TABLE -->
-            <VBox spacing="10" HBox.hgrow="ALWAYS">
-                <Label style="-fx-text-fill:white;" styleClass="page-title"
-                       text="All Insurance Records"/>
-                <TableView fx:id="insuranceTable" prefHeight="600"
-                           styleClass="table-view" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="colId"         prefWidth="50"  text="ID"/>
-                        <TableColumn fx:id="colVehicleReg" prefWidth="130" text="Vehicle Reg"/>
-                        <TableColumn fx:id="colPolicy"     prefWidth="130" text="Policy No."/>
-                        <TableColumn fx:id="colProvider"   prefWidth="160" text="Company"/>
-                        <TableColumn fx:id="colCoverage"   prefWidth="130" text="Coverage Type"/>
-                        <TableColumn fx:id="colStart"      prefWidth="110" text="Start Date"/>
-                        <TableColumn fx:id="colEnd"        prefWidth="110" text="Expiry Date"/>
-                        <TableColumn fx:id="colStatus"     prefWidth="90"  text="Status"/>
-                        <TableColumn fx:id="colPremium"    prefWidth="110" text="Premium (M)"/>
-                        <TableColumn fx:id="colDaysLeft"   prefWidth="90"  text="Days Left"/>
-                    </columns>
-                    <placeholder>
-                        <Label text="No insurance records found."/>
-                    </placeholder>
-                </TableView>
-                <Label fx:id="tableMessageLabel" text="" wrapText="true"/>
-            </VBox>
-        </HBox>
-    </VBox>
+            <HBox spacing="20" style="-fx-padding: 0 20 20 20;" VBox.vgrow="ALWAYS">
+
+                <!-- LEFT: FORM — hidden for ADMIN/CUSTOMER -->
+                <VBox fx:id="formPanel" spacing="12" styleClass="card" prefWidth="320">
+                    <Label styleClass="page-title" text="Insurance Record"/>
+
+                    <Label styleClass="form-label" text="Vehicle"/>
+                    <ComboBox fx:id="vehicleCombo" maxWidth="Infinity"
+                              promptText="Select vehicle..." styleClass="form-field"/>
+                    <Label fx:id="vehicleInfoLabel" text=""
+                           style="-fx-font-size: 11px; -fx-text-fill: #5c6bc0;"
+                           wrapText="true"/>
+
+                    <Label styleClass="form-label" text="Policy Number"/>
+                    <TextField fx:id="policyField"
+                               promptText="e.g. POL-2024-001" styleClass="form-field"/>
+
+                    <Label styleClass="form-label" text="Insurance Company"/>
+                    <TextField fx:id="providerField"
+                               promptText="e.g. Lesotho National Insurance"
+                               styleClass="form-field"/>
+
+                    <Label styleClass="form-label" text="Coverage Type"/>
+                    <TextField fx:id="coverageTypeField"
+                               promptText="e.g. Comprehensive" styleClass="form-field"/>
+
+                    <Label styleClass="form-label" text="Start Date"/>
+                    <DatePicker fx:id="startDatePicker"
+                                maxWidth="Infinity" styleClass="form-field"/>
+
+                    <Label styleClass="form-label" text="Expiry Date"/>
+                    <DatePicker fx:id="endDatePicker"
+                                maxWidth="Infinity" styleClass="form-field"/>
+
+                    <Label styleClass="form-label" text="Status"/>
+                    <ComboBox fx:id="statusCombo" maxWidth="Infinity"
+                              promptText="Select status" styleClass="form-field"/>
+
+                    <Label styleClass="form-label" text="Premium Amount (M)"/>
+                    <TextField fx:id="premiumField"
+                               promptText="e.g. 5000.00" styleClass="form-field"/>
+
+                    <Label fx:id="daysLeftLabel" text=""
+                           style="-fx-font-size: 12px; -fx-font-weight: bold;"
+                           wrapText="true"/>
+
+                    <Separator/>
+                    <HBox spacing="8">
+                        <Button fx:id="btnAdd" maxWidth="Infinity" onAction="#handleAdd"
+                                styleClass="btn-primary" text="Add"
+                                HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnUpdate" maxWidth="Infinity" onAction="#handleUpdate"
+                                styleClass="btn-primary" text="Update"
+                                HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnDelete" maxWidth="Infinity"
+                                onAction="#handleDelete" styleClass="btn-danger"
+                                text="Delete" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                    <Button fx:id="btnClear" maxWidth="Infinity" onAction="#handleClear"
+                            style="-fx-background-color:#eceff1;-fx-text-fill:#424242;
+                                   -fx-font-size:13px;-fx-padding:9 20;
+                                   -fx-background-radius:5;-fx-cursor:hand;
+                                   -fx-font-weight:bold;" text="Clear Form"/>
+                    <Label fx:id="messageLabel" text="" wrapText="true"/>
+                </VBox>
+
+                <!-- RIGHT: TABLE -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill:white;" styleClass="page-title"
+                           text="All Insurance Records"/>
+                    <TableView fx:id="insuranceTable" prefHeight="600"
+                               styleClass="table-view" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colId"         prefWidth="50"  text="ID"/>
+                            <TableColumn fx:id="colVehicleReg" prefWidth="130" text="Vehicle Reg"/>
+                            <TableColumn fx:id="colPolicy"     prefWidth="130" text="Policy No."/>
+                            <TableColumn fx:id="colProvider"   prefWidth="160" text="Company"/>
+                            <TableColumn fx:id="colCoverage"   prefWidth="130" text="Coverage Type"/>
+                            <TableColumn fx:id="colStart"      prefWidth="110" text="Start Date"/>
+                            <TableColumn fx:id="colEnd"        prefWidth="110" text="Expiry Date"/>
+                            <TableColumn fx:id="colStatus"     prefWidth="90"  text="Status"/>
+                            <TableColumn fx:id="colPremium"    prefWidth="110" text="Premium (M)"/>
+                            <TableColumn fx:id="colDaysLeft"   prefWidth="90"  text="Days Left"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No insurance records found."/>
+                        </placeholder>
+                    </TableView>
+                    <Label fx:id="tableMessageLabel" text="" wrapText="true"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </ScrollPane>
 </VBox>

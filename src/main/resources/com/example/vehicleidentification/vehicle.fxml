@@ -65,7 +65,7 @@
             </VBox>
 
             <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;                                -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
-                <VBox spacing="10" style="-fx-padding: 20; -fx-background-color: white;">
+                <VBox spacing="10" style="-fx-padding: 20; -fx-background-color: transparent;">
 
                     <Label style="-fx-text-fill: #90caf9; -fx-font-size: 11px; -fx-font-weight: bold;" text="Registration No. *" />
                     <TextField fx:id="regField" promptText="e.g. ABC 123 GP" style="-fx-text-fill: #7986cb; -fx-prompt-text-fill: #7986cb; -fx-border-color: #3949ab; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8;" styleClass="form-field" />

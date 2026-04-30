@@ -1,154 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.vehicleidentification.controllers.ViolationController"
-      stylesheets="@styles.css" spacing="0" minWidth="1200" minHeight="700"
-      style="-fx-background-color: transparent;">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="700" minWidth="1200" spacing="0"
+      style="-fx-background-color: white;" stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.vehicleidentification.controllers.ViolationController">
 
     <MenuBar styleClass="menu-bar">
-        <Menu text="File"><MenuItem text="Exit" onAction="#handleExit"/></Menu>
+        <Menu text="File"><MenuItem onAction="#handleExit" text="Exit"/></Menu>
         <Menu text="Modules">
-            <MenuItem text="Dashboard"       onAction="#goToDashboard"/>
-            <MenuItem text="Vehicles"        onAction="#goToVehicle"/>
-            <MenuItem text="Customer Panel"  onAction="#goToCustomer"/>
-            <MenuItem text="Workshop"        onAction="#goToWorkshop"/>
-            <MenuItem text="Police"          onAction="#goToPolice"/>
-            <MenuItem text="Violation"       onAction="#goToViolations"/>
-            <MenuItem text="Insurance"       onAction="#goToInsurance"/>
-            <MenuItem text="User Management" onAction="#goToAdmin"/>
+            <MenuItem onAction="#goToDashboard"  text="Dashboard"/>
+            <MenuItem onAction="#goToVehicle"    text="Vehicles"/>
+            <MenuItem onAction="#goToCustomer"   text="Customer Panel"/>
+            <MenuItem onAction="#goToWorkshop"   text="Workshop"/>
+            <MenuItem onAction="#goToPolice"     text="Police Reprot"/>
+            <MenuItem onAction="#goToViolations" text="Violation"/>
+            <MenuItem onAction="#goToInsurance"  text="Insurance"/>
+            <MenuItem onAction="#goToAdmin"      text="User Management"/>
         </Menu>
     </MenuBar>
 
-    <HBox styleClass="header" alignment="CENTER_LEFT" spacing="15">
+    <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
         <VBox>
-            <Label text="VehicleID System" styleClass="header-logo"/>
-            <Label text="Violations Panel" styleClass="header-subtitle"/>
+            <Label styleClass="header-logo"     text="VehicleID System"/>
+            <Label styleClass="header-subtitle" text="Violations Panel"/>
         </VBox>
         <HBox HBox.hgrow="ALWAYS"/>
         <Label fx:id="welcomeLabel"
                style="-fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 0 10 0 0;"/>
-        <Button text="Dashboard"       styleClass="nav-btn" onAction="#goToDashboard"/>
-        <Button text="Vehicles"        styleClass="nav-btn" onAction="#goToVehicle"/>
-        <Button text="Customer Panel"  styleClass="nav-btn" onAction="#goToCustomer"/>
-        <Button text="Workshop"        styleClass="nav-btn" onAction="#goToWorkshop"/>
-        <Button text="Police"          styleClass="nav-btn" onAction="#goToPolice"/>
-        <Button text="Violation"       styleClass="nav-btn nav-btn-active" onAction="#goToViolations"/>
-        <Button text="Insurance"       styleClass="nav-btn" onAction="#goToInsurance"/>
-        <Button text="User Management" styleClass="nav-btn" onAction="#goToAdmin"/>
-        <Button fx:id="logoutButton"   styleClass="btn-danger" onAction="#handleLogout"
-                text="Logout"/>
+        <Button onAction="#goToDashboard"  styleClass="nav-btn"               text="Dashboard"/>
+        <Button onAction="#goToVehicle"    styleClass="nav-btn"               text="Vehicles"/>
+        <Button onAction="#goToCustomer"   styleClass="nav-btn"               text="Customer Panel"/>
+        <Button onAction="#goToWorkshop"   styleClass="nav-btn"               text="Workshop"/>
+        <Button onAction="#goToPolice"     styleClass="nav-btn"               text="Police Report"/>
+        <Button onAction="#goToViolations" styleClass="nav-btn nav-btn-active" text="Violation"/>
+        <Button onAction="#goToInsurance"  styleClass="nav-btn"               text="Insurance"/>
+        <Button onAction="#goToAdmin"      styleClass="nav-btn"               text="User Management"/>
+        <Button fx:id="logoutButton" onAction="#handleLogout"
+                styleClass="btn-danger" text="Logout"/>
     </HBox>
 
     <!-- ACCESS DENIED -->
-    <VBox fx:id="accessDeniedPane" alignment="CENTER" spacing="20"
+    <VBox fx:id="accessDeniedPane" alignment="CENTER" managed="false" spacing="20"
           style="-fx-padding: 80; -fx-background-color: #ffebee;"
-          VBox.vgrow="ALWAYS" visible="false" managed="false">
-        <Label text="Access Denied"
-               style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #c62828;"/>
-        <Button text="Go Back to Dashboard" styleClass="btn-danger" onAction="#goToDashboard"/>
+          visible="false" VBox.vgrow="ALWAYS">
+        <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #c62828;"
+               text="Access Denied"/>
+        <Button onAction="#goToDashboard" styleClass="btn-danger"
+                text="Go Back to Dashboard"/>
     </VBox>
 
     <!-- CUSTOMER PANE — read-only, own violations only -->
-    <VBox fx:id="customerPane" spacing="15" style="-fx-padding: 20;"
-          VBox.vgrow="ALWAYS" visible="false" managed="false">
-        <Label text="My Violations" styleClass="page-title"/>
-        <Label text="Read-only view of your own violations."
-               style="-fx-text-fill: #757575; -fx-font-size: 12px;"/>
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button text="Show Unpaid" styleClass="btn-danger"  onAction="#handleFilterUnpaid"/>
-            <Button text="Show All"    styleClass="btn-primary" onAction="#handleShowAll"/>
-            <Label fx:id="customerMessageLabel" text=""
-                   style="-fx-text-fill: #c62828; -fx-font-size: 12px;"/>
-        </HBox>
-        <TableView fx:id="customerViolationTable" VBox.vgrow="ALWAYS" prefHeight="500"
-                   styleClass="table-view">
-            <columns>
-                <TableColumn fx:id="cColDate"    text="Date"        prefWidth="110"/>
-                <TableColumn fx:id="cColVehicle" text="Vehicle Reg" prefWidth="130"/>
-                <TableColumn fx:id="cColType"    text="Type"        prefWidth="140"/>
-                <TableColumn fx:id="cColFine"    text="Fine (M)"    prefWidth="120"/>
-                <TableColumn fx:id="cColStatus"  text="Status"      prefWidth="100"/>
-            </columns>
-            <placeholder><Label text="No violations found."/></placeholder>
-        </TableView>
-    </VBox>
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent;"
+                managed="false" visible="false" fx:id="customerScrollPane">
+        <VBox fx:id="customerPane" managed="false" spacing="15"
+              style="-fx-padding: 20;" visible="false" VBox.vgrow="ALWAYS">
+            <Label styleClass="page-title" text="My Violations"/>
+            <Label style="-fx-text-fill: #757575; -fx-font-size: 12px;"
+                   text="Read-only view of your own violations."/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Button onAction="#handleFilterUnpaid" styleClass="btn-danger"
+                        text="Show Unpaid"/>
+                <Button onAction="#handleShowAll" styleClass="btn-primary"
+                        text="Show All"/>
+                <Label fx:id="customerMessageLabel"
+                       style="-fx-text-fill: #c62828; -fx-font-size: 12px;" text=""/>
+            </HBox>
+            <TableView fx:id="customerViolationTable" prefHeight="500"
+                       styleClass="table-view" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="cColDate"    prefWidth="110" text="Date"/>
+                    <TableColumn fx:id="cColVehicle" prefWidth="130" text="Vehicle Reg"/>
+                    <TableColumn fx:id="cColType"    prefWidth="140" text="Type"/>
+                    <TableColumn fx:id="cColFine"    prefWidth="120" text="Fine (M)"/>
+                    <TableColumn fx:id="cColStatus"  prefWidth="100" text="Status"/>
+                </columns>
+                <placeholder><Label text="No violations found."/></placeholder>
+            </TableView>
+        </VBox>
+    </ScrollPane>
 
     <!-- ADMIN VIEW-ONLY PANE -->
     <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
-                style="-fx-background-color: transparent; -fx-background: transparent;">
-        <VBox fx:id="adminViewPane" spacing="0" visible="false" managed="false"
-              style="-fx-background-color: transparent;">
+                style="-fx-background-color: transparent; -fx-background: transparent;"
+                managed="false" visible="false" fx:id="adminScrollPane">
+        <VBox fx:id="adminViewPane" managed="false" spacing="0"
+              visible="false" VBox.vgrow="ALWAYS">
 
-            <!-- View-only notice banner -->
+
             <VBox fx:id="adminViewOnlyNotice"
                   style="-fx-background-color:#e3f2fd;-fx-padding:12 20;
                          -fx-border-color:#90caf9;-fx-border-width:0 0 1 0;">
-                <Label text="View Only Mode — Admins can view all violations but cannot add, update or delete."
-                       style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1565c0;"/>
+                <Label style="-fx-font-size:13px;-fx-font-weight:bold;-fx-text-fill:#1565c0;"
+                       text="View Only Mode — Admins can view all violations but cannot add, update or delete."/>
             </VBox>
 
-            <!-- Summary cards -->
-            <HBox spacing="20" style="-fx-padding: 15 20 5 20;" alignment="CENTER_LEFT">
-                <VBox styleClass="card" alignment="CENTER" spacing="4"
-                      style="-fx-min-width: 140; -fx-padding: 12;">
-                    <Label text="Total Violations"
-                           style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-                    <Label fx:id="adminTotalLabel" text="0"
+
+            <HBox alignment="CENTER_LEFT" spacing="20"
+                  style="-fx-padding: 15 20 5 20;">
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 140; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #666;"
+                           text="Total Violations"/>
+                    <Label fx:id="adminTotalLabel"
                            style="-fx-font-size: 26px; -fx-font-weight: bold;
-                                  -fx-text-fill: #1565c0;"/>
+                                  -fx-text-fill: #1565c0;" text="0"/>
                 </VBox>
-                <VBox styleClass="card" alignment="CENTER" spacing="4"
-                      style="-fx-min-width: 140; -fx-padding: 12;">
-                    <Label text="Unpaid"
-                           style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-                    <Label fx:id="adminUnpaidLabel" text="0"
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 140; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #666;"
+                           text="Unpaid"/>
+                    <Label fx:id="adminUnpaidLabel"
                            style="-fx-font-size: 26px; -fx-font-weight: bold;
-                                  -fx-text-fill: #c62828;"/>
+                                  -fx-text-fill: #c62828;" text="0"/>
                 </VBox>
-                <VBox styleClass="card" alignment="CENTER" spacing="4"
-                      style="-fx-min-width: 140; -fx-padding: 12;">
-                    <Label text="Paid"
-                           style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-                    <Label fx:id="adminPaidLabel" text="0"
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 140; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #666;"
+                           text="Paid"/>
+                    <Label fx:id="adminPaidLabel"
                            style="-fx-font-size: 26px; -fx-font-weight: bold;
-                                  -fx-text-fill: #2e7d32;"/>
+                                  -fx-text-fill: #2e7d32;" text="0"/>
                 </VBox>
                 <HBox HBox.hgrow="ALWAYS"/>
-                <Button text="All"    styleClass="btn-primary" onAction="#handleAdminShowAll"/>
-                <Button text="Unpaid" styleClass="btn-danger"  onAction="#handleAdminFilterUnpaid"/>
-                <Button text="Paid"   styleClass="btn-primary" onAction="#handleAdminFilterPaid"/>
+                <Button onAction="#handleAdminShowAll"       styleClass="btn-primary" text="All"/>
+                <Button onAction="#handleAdminFilterUnpaid"  styleClass="btn-danger"  text="Unpaid"/>
+                <Button onAction="#handleAdminFilterPaid"    styleClass="btn-primary" text="Paid"/>
             </HBox>
 
             <!-- Search -->
-            <HBox spacing="10" style="-fx-padding: 5 20 10 20;" alignment="CENTER_LEFT">
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 5 20 10 20;">
                 <TextField fx:id="adminSearchField"
                            promptText="Search by vehicle reg, type, officer or location..."
                            styleClass="form-field" HBox.hgrow="ALWAYS"/>
-                <Button text="Search" styleClass="btn-primary" onAction="#handleAdminSearch"/>
-                <Button text="Clear" onAction="#handleAdminClearSearch"
+                <Button onAction="#handleAdminSearch" styleClass="btn-primary" text="Search"/>
+                <Button onAction="#handleAdminClearSearch"
                         style="-fx-background-color:#eceff1;-fx-text-fill:#424242;
                                -fx-font-size:13px;-fx-padding:9 20;
                                -fx-background-radius:5;-fx-cursor:hand;
-                               -fx-font-weight:bold;"/>
+                               -fx-font-weight:bold;" text="Clear"/>
             </HBox>
 
             <VBox spacing="10" style="-fx-padding: 0 20 20 20;">
-                <Label text="All Violations (View Only)" styleClass="page-title"
-                       style="-fx-text-fill: white;"/>
-                <TableView fx:id="adminViolationTable" VBox.vgrow="ALWAYS" prefHeight="600"
-                           styleClass="table-view">
+                <Label style="-fx-text-fill: #FFF;" styleClass="page-title"
+                       text="All Violations (View Only)"/>
+                <TableView fx:id="adminViolationTable" prefHeight="600"
+                           styleClass="table-view" VBox.vgrow="ALWAYS">
                     <columns>
-                        <TableColumn fx:id="aColId"         text="ID"          prefWidth="50"/>
-                        <TableColumn fx:id="aColVehicleReg" text="Vehicle Reg" prefWidth="130"/>
-                        <TableColumn fx:id="aColDate"       text="Date"        prefWidth="110"/>
-                        <TableColumn fx:id="aColType"       text="Type"        prefWidth="120"/>
-                        <TableColumn fx:id="aColDesc"       text="Description" prefWidth="180"/>
-                        <TableColumn fx:id="aColFine"       text="Fine (M)"    prefWidth="90"/>
-                        <TableColumn fx:id="aColStatus"     text="Status"      prefWidth="90"/>
-                        <TableColumn fx:id="aColOfficer"    text="Officer"     prefWidth="120"/>
-                        <TableColumn fx:id="aColLocation"   text="Location"    prefWidth="130"/>
+                        <TableColumn fx:id="aColId"         prefWidth="50"  text="ID"/>
+                        <TableColumn fx:id="aColVehicleReg" prefWidth="130" text="Vehicle Reg"/>
+                        <TableColumn fx:id="aColDate"       prefWidth="110" text="Date"/>
+                        <TableColumn fx:id="aColType"       prefWidth="120" text="Type"/>
+                        <TableColumn fx:id="aColDesc"       prefWidth="180" text="Description"/>
+                        <TableColumn fx:id="aColFine"       prefWidth="90"  text="Fine (M)"/>
+                        <TableColumn fx:id="aColStatus"     prefWidth="90"  text="Status"/>
+                        <TableColumn fx:id="aColOfficer"    prefWidth="120" text="Officer"/>
+                        <TableColumn fx:id="aColLocation"   prefWidth="130" text="Location"/>
                     </columns>
                     <placeholder><Label text="No violations found."/></placeholder>
                 </TableView>
@@ -157,148 +181,146 @@
         </VBox>
     </ScrollPane>
 
-    <!-- MAIN CONTENT (POLICE only — full access) -->
-    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
-                style="-fx-background-color: transparent; -fx-background: transparent;">
-        <VBox fx:id="mainContentPane" spacing="0" visible="false" managed="false"
-              style="-fx-background-color: transparent;">
 
-            <!-- Summary Cards -->
-            <HBox spacing="20" style="-fx-padding: 15 20 5 20;" alignment="CENTER_LEFT">
-                <VBox styleClass="card" alignment="CENTER" spacing="4"
-                      style="-fx-min-width: 140; -fx-padding: 12;">
-                    <Label text="Total Violations"
-                           style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-                    <Label fx:id="totalViolationsLabel" text="0"
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent;"
+                managed="false" visible="false" fx:id="policeScrollPane">
+        <VBox fx:id="mainContentPane" managed="false" spacing="0"
+              visible="false" VBox.vgrow="ALWAYS">
+
+
+            <HBox alignment="CENTER_LEFT" spacing="20"
+                  style="-fx-padding: 15 20 5 20;">
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 140; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #666;"
+                           text="Total Violations"/>
+                    <Label fx:id="totalViolationsLabel"
                            style="-fx-font-size: 26px; -fx-font-weight: bold;
-                                  -fx-text-fill: #1565c0;"/>
+                                  -fx-text-fill: #1565c0;" text="0"/>
                 </VBox>
-                <VBox styleClass="card" alignment="CENTER" spacing="4"
-                      style="-fx-min-width: 140; -fx-padding: 12;">
-                    <Label text="Unpaid"
-                           style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-                    <Label fx:id="unpaidLabel" text="0"
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 140; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #666;"
+                           text="Unpaid"/>
+                    <Label fx:id="unpaidLabel"
                            style="-fx-font-size: 26px; -fx-font-weight: bold;
-                                  -fx-text-fill: #c62828;"/>
+                                  -fx-text-fill: #c62828;" text="0"/>
                 </VBox>
-                <VBox styleClass="card" alignment="CENTER" spacing="4"
-                      style="-fx-min-width: 140; -fx-padding: 12;">
-                    <Label text="Paid"
-                           style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
-                    <Label fx:id="paidLabel" text="0"
+                <VBox alignment="CENTER" spacing="4"
+                      style="-fx-min-width: 140; -fx-padding: 12;" styleClass="card">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #666;"
+                           text="Paid"/>
+                    <Label fx:id="paidLabel"
                            style="-fx-font-size: 26px; -fx-font-weight: bold;
-                                  -fx-text-fill: #2e7d32;"/>
+                                  -fx-text-fill: #2e7d32;" text="0"/>
                 </VBox>
                 <HBox HBox.hgrow="ALWAYS"/>
-                <Button text="All"    styleClass="btn-primary" onAction="#handleShowAll"/>
-                <Button text="Unpaid" styleClass="btn-danger"  onAction="#handleFilterUnpaid"/>
-                <Button text="Paid"   styleClass="btn-primary" onAction="#handleFilterPaid"/>
+                <Button onAction="#handleShowAll"       styleClass="btn-primary" text="All"/>
+                <Button onAction="#handleFilterUnpaid"  styleClass="btn-danger"  text="Unpaid"/>
+                <Button onAction="#handleFilterPaid"    styleClass="btn-primary" text="Paid"/>
             </HBox>
 
             <!-- Search Bar -->
-            <HBox spacing="10" style="-fx-padding: 5 20 10 20;" alignment="CENTER_LEFT">
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding: 5 20 10 20;">
                 <TextField fx:id="searchField"
                            promptText="Search by vehicle reg, type, officer or location..."
                            styleClass="form-field" HBox.hgrow="ALWAYS"/>
-                <Button text="Search" styleClass="btn-primary" onAction="#handleSearch"/>
-                <Button text="Clear" onAction="#handleClearSearch"
+                <Button onAction="#handleSearch" styleClass="btn-primary" text="Search"/>
+                <Button onAction="#handleClearSearch"
                         style="-fx-background-color:#eceff1;-fx-text-fill:#424242;
                                -fx-font-size:13px;-fx-padding:9 20;
                                -fx-background-radius:5;-fx-cursor:hand;
-                               -fx-font-weight:bold;"/>
+                               -fx-font-weight:bold;" text="Clear"/>
             </HBox>
 
             <HBox spacing="20" style="-fx-padding: 0 20 20 20;" VBox.vgrow="ALWAYS">
 
-                <!-- LEFT: FORM — Police only -->
-                <ScrollPane fitToWidth="true" prefWidth="340"
-                            style="-fx-background-color: transparent;
-                                   -fx-background: transparent;">
-                    <VBox spacing="12" styleClass="card" prefWidth="320">
-                        <Label text="Violation Form" styleClass="page-title"/>
 
-                        <Label text="Vehicle"          styleClass="form-label"/>
-                        <ComboBox fx:id="vehicleCombo" promptText="Select vehicle..."
-                                  styleClass="form-field" maxWidth="Infinity"/>
-                        <Label fx:id="vehicleInfoLabel" text=""
-                               style="-fx-font-size: 11px; -fx-text-fill: #5c6bc0;"
-                               wrapText="true"/>
+                <VBox prefWidth="320" spacing="12" styleClass="card">
+                    <Label styleClass="page-title" text="Violation Form"/>
 
-                        <Label text="Date"             styleClass="form-label"/>
-                        <DatePicker fx:id="violationDatePicker" styleClass="form-field"
-                                    maxWidth="Infinity"/>
+                    <Label styleClass="form-label" text="Vehicle"/>
+                    <ComboBox fx:id="vehicleCombo" maxWidth="Infinity"
+                              promptText="Select vehicle..." styleClass="form-field"/>
+                    <Label fx:id="vehicleInfoLabel"
+                           style="-fx-font-size: 11px; -fx-text-fill: #5c6bc0;"
+                           text="" wrapText="true"/>
 
-                        <Label text="Violation Type"   styleClass="form-label"/>
-                        <ComboBox fx:id="violationTypeCombo" styleClass="form-field"
-                                  promptText="Select type" maxWidth="Infinity"/>
+                    <Label styleClass="form-label" text="Date"/>
+                    <DatePicker fx:id="violationDatePicker" maxWidth="Infinity"
+                                styleClass="form-field"/>
 
-                        <Label text="Description"      styleClass="form-label"/>
-                        <TextArea fx:id="descriptionField"
-                                  promptText="Describe the violation..."
-                                  prefHeight="60" wrapText="true"
-                                  style="-fx-border-color: #c5cae9; -fx-border-radius: 5;
-                                         -fx-background-radius: 5; -fx-font-size: 13px;"/>
+                    <Label styleClass="form-label" text="Violation Type"/>
+                    <ComboBox fx:id="violationTypeCombo" maxWidth="Infinity"
+                              promptText="Select type" styleClass="form-field"/>
 
-                        <Label text="Fine Amount (M)"  styleClass="form-label"/>
-                        <TextField fx:id="fineField"   promptText="0.00"
-                                   styleClass="form-field"/>
+                    <Label styleClass="form-label" text="Description"/>
+                    <TextArea fx:id="descriptionField" prefHeight="60"
+                              promptText="Describe the violation..."
+                              style="-fx-border-color: #c5cae9; -fx-border-radius: 5;
+                                     -fx-background-radius: 5; -fx-font-size: 13px;"
+                              wrapText="true"/>
 
-                        <Label text="Officer Name"     styleClass="form-label"/>
-                        <TextField fx:id="officerField" promptText="Officer name"
-                                   styleClass="form-field"/>
+                    <Label styleClass="form-label" text="Fine Amount (M)"/>
+                    <TextField fx:id="fineField" promptText="0.00"
+                               styleClass="form-field"/>
 
-                        <Label text="Location"         styleClass="form-label"/>
-                        <TextField fx:id="locationField" promptText="Location"
-                                   styleClass="form-field"/>
+                    <Label styleClass="form-label" text="Officer Name"/>
+                    <TextField fx:id="officerField" promptText="Officer name"
+                               styleClass="form-field"/>
 
-                        <Label text="Status"           styleClass="form-label"/>
-                        <ComboBox fx:id="statusCombo"  styleClass="form-field"
-                                  promptText="Paid / Unpaid" maxWidth="Infinity"/>
+                    <Label styleClass="form-label" text="Location"/>
+                    <TextField fx:id="locationField" promptText="Location"
+                               styleClass="form-field"/>
 
-                        <Separator/>
+                    <Label styleClass="form-label" text="Status"/>
+                    <ComboBox fx:id="statusCombo" maxWidth="Infinity"
+                              promptText="Paid / Unpaid" styleClass="form-field"/>
 
-                        <HBox spacing="8">
-                            <Button text="Add" styleClass="btn-primary"
-                                    onAction="#handleAdd"
-                                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                            <Button text="Update" styleClass="btn-primary"
-                                    onAction="#handleUpdate"
-                                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                            <Button fx:id="btnDelete" text="Delete" styleClass="btn-danger"
-                                    onAction="#handleDelete"
-                                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                        </HBox>
+                    <Separator/>
 
-                        <Button text="Mark as Paid" styleClass="btn-primary"
-                                onAction="#handleMarkPaid" maxWidth="Infinity"/>
+                    <HBox spacing="8">
+                        <Button maxWidth="Infinity" onAction="#handleAdd"
+                                styleClass="btn-primary" text="Add"
+                                HBox.hgrow="ALWAYS"/>
+                        <Button maxWidth="Infinity" onAction="#handleUpdate"
+                                styleClass="btn-primary" text="Update"
+                                HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnDelete" maxWidth="Infinity"
+                                onAction="#handleDelete" styleClass="btn-danger"
+                                text="Delete" HBox.hgrow="ALWAYS"/>
+                    </HBox>
 
-                        <Button text="Clear Form" onAction="#handleClear"
-                                maxWidth="Infinity"
-                                style="-fx-background-color:#eceff1;-fx-text-fill:#424242;
-                                       -fx-font-size:13px;-fx-padding:9 20;
-                                       -fx-background-radius:5;-fx-cursor:hand;
-                                       -fx-font-weight:bold;"/>
+                    <Button maxWidth="Infinity" onAction="#handleMarkPaid"
+                            styleClass="btn-primary" text="Mark as Paid"/>
 
-                        <Label fx:id="messageLabel" text="" wrapText="true"/>
-                    </VBox>
-                </ScrollPane>
+                    <Button maxWidth="Infinity" onAction="#handleClear"
+                            style="-fx-background-color:#eceff1;-fx-text-fill:#424242;
+                                   -fx-font-size:13px;-fx-padding:9 20;
+                                   -fx-background-radius:5;-fx-cursor:hand;
+                                   -fx-font-weight:bold;" text="Clear Form"/>
 
-                <!-- RIGHT: TABLE -->
+                    <Label fx:id="messageLabel" text="" wrapText="true"/>
+                </VBox>
+
+
                 <VBox spacing="10" HBox.hgrow="ALWAYS">
-                    <Label text="All Violations" styleClass="page-title"
-                           style="-fx-text-fill: white;"/>
-                    <TableView fx:id="violationTable" VBox.vgrow="ALWAYS" prefHeight="600"
-                               styleClass="table-view">
+                    <Label style="-fx-text-fill: #1a237e;" styleClass="page-title"
+                           text="All Violations"/>
+                    <TableView fx:id="violationTable" prefHeight="600"
+                               styleClass="table-view" VBox.vgrow="ALWAYS">
                         <columns>
-                            <TableColumn fx:id="colId"         text="ID"          prefWidth="50"/>
-                            <TableColumn fx:id="colVehicleReg" text="Vehicle Reg" prefWidth="130"/>
-                            <TableColumn fx:id="colDate"       text="Date"        prefWidth="110"/>
-                            <TableColumn fx:id="colType"       text="Type"        prefWidth="120"/>
-                            <TableColumn fx:id="colDesc"       text="Description" prefWidth="180"/>
-                            <TableColumn fx:id="colFine"       text="Fine (M)"    prefWidth="90"/>
-                            <TableColumn fx:id="colStatus"     text="Status"      prefWidth="90"/>
-                            <TableColumn fx:id="colOfficer"    text="Officer"     prefWidth="120"/>
-                            <TableColumn fx:id="colLocation"   text="Location"    prefWidth="130"/>
+                            <TableColumn fx:id="colId"         prefWidth="50"  text="ID"/>
+                            <TableColumn fx:id="colVehicleReg" prefWidth="130" text="Vehicle Reg"/>
+                            <TableColumn fx:id="colDate"       prefWidth="110" text="Date"/>
+                            <TableColumn fx:id="colType"       prefWidth="120" text="Type"/>
+                            <TableColumn fx:id="colDesc"       prefWidth="180" text="Description"/>
+                            <TableColumn fx:id="colFine"       prefWidth="90"  text="Fine (M)"/>
+                            <TableColumn fx:id="colStatus"     prefWidth="90"  text="Status"/>
+                            <TableColumn fx:id="colOfficer"    prefWidth="120" text="Officer"/>
+                            <TableColumn fx:id="colLocation"   prefWidth="130" text="Location"/>
                         </columns>
                         <placeholder><Label text="No violations found."/></placeholder>
                     </TableView>
@@ -307,4 +329,5 @@
             </HBox>
         </VBox>
     </ScrollPane>
+
 </VBox>

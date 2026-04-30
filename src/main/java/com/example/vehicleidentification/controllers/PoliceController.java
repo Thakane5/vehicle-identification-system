@@ -35,7 +35,7 @@ public class PoliceController implements Initializable {
     @FXML private VBox accessDeniedPane;
     @FXML private HBox mainContentPane;
 
-    @FXML private ScrollPane formScrollPane;
+    @FXML private VBox formScrollPane;
     @FXML private VBox actionButtonsPane;
 
     @FXML private Label totalReportsLabel;

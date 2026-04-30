@@ -19,7 +19,7 @@ public class CustomerQueryDAO {
             Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt   (1, q.getCustomerId());
-            stmt.setInt   (2, q.getUserId());          // int — numeric DB key
+            stmt.setString(2, q.getUserId());
             stmt.setInt   (3, q.getVehicleId());
             stmt.setDate  (4, Date.valueOf(q.getQueryDate()));
             stmt.setString(5, q.getQueryText());
@@ -106,7 +106,7 @@ public class CustomerQueryDAO {
                 rs.getString("response_text") != null ? rs.getString("response_text") : "",
                 rs.getString("status")        != null ? rs.getString("status")        : "Pending"
         );
-        try { q.setUserId(rs.getInt("user_id")); } catch (SQLException ignored) {}
+        try { q.setUserId(rs.getString("user_id")); } catch (SQLException ignored) {}
         return q;
     }
 }

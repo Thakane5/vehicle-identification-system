@@ -247,10 +247,7 @@ public class AdminController implements Initializable {
     private void deny()            { error("Access denied. Admins only."); }
     private boolean isAdmin()      { return "ADMIN".equals(SessionManager.getRole()); }
 
-    // ================================================================
-    // NAVIGATION - handles both Button and MenuItem sources
-    // ================================================================
-    private Stage resolveStage(ActionEvent e) {
+   private Stage resolveStage(ActionEvent e) {
         Object source = e.getSource();
         if (source instanceof Node node) {
             return (Stage) node.getScene().getWindow();

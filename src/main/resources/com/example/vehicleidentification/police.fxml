@@ -51,19 +51,20 @@
         <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="btn-danger" text="Logout" />
     </HBox>
 
-    <!-- ACCESS DENIED -->
+
     <VBox fx:id="accessDeniedPane" alignment="CENTER" managed="false" spacing="20" style="-fx-padding:80;-fx-background-color:#ffebee;" visible="false" VBox.vgrow="ALWAYS">
         <Label style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#c62828;" text="Access Denied" />
         <Label style="-fx-font-size:14px;-fx-text-fill:#555;" text="Only Police officers and Admins can access this module." />
         <Button onAction="#goToDashboard" styleClass="btn-danger" text="Go Back to Dashboard" />
     </VBox>
 
-    <!-- MAIN CONTENT -->
-    <HBox fx:id="mainContentPane" managed="false" spacing="0" visible="false" VBox.vgrow="ALWAYS">
 
-        <!-- LEFT FORM PANEL — shown to POLICE, hidden from ADMIN -->
-        <ScrollPane fx:id="formScrollPane" fitToWidth="true" minWidth="340" prefWidth="360" style="-fx-background-color:transparent;-fx-background:transparent;">
-            <VBox spacing="10" style="-fx-padding:20;-fx-background-color:white;">
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent;">
+        <HBox fx:id="mainContentPane" managed="false" spacing="0" visible="false" VBox.vgrow="ALWAYS">
+
+
+            <VBox fx:id="formScrollPane" minWidth="340" prefWidth="360" spacing="10" style="-fx-padding:20;-fx-background-color:transparent;">
 
                 <Label styleClass="page-title" text="File Police Report" />
 
@@ -101,62 +102,62 @@
 
                 <Label fx:id="messageLabel" text="" wrapText="true" />
             </VBox>
-        </ScrollPane>
 
-        <!-- RIGHT TABLE PANEL -->
-        <VBox spacing="12" style="-fx-padding:20;-fx-background-color:#f5f7ff;" HBox.hgrow="ALWAYS">
+            <!-- RIGHT TABLE PANEL -->
+            <VBox spacing="12" style="-fx-padding:20;-fx-background-color:#f5f7ff;" HBox.hgrow="ALWAYS">
 
-            <!-- Summary cards -->
-            <HBox spacing="16">
-                <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
-                    <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Total Reports" />
-                    <Label fx:id="totalReportsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#1565c0;" text="0" />
-                </VBox>
-                <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
-                    <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Accidents" />
-                    <Label fx:id="accidentsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#c62828;" text="0" />
-                </VBox>
-                <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
-                    <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Thefts" />
-                    <Label fx:id="theftsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#e65100;" text="0" />
-                </VBox>
-            </HBox>
+                <!-- Summary cards -->
+                <HBox spacing="16">
+                    <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
+                        <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Total Reports" />
+                        <Label fx:id="totalReportsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#1565c0;" text="0" />
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
+                        <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Accidents" />
+                        <Label fx:id="accidentsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#c62828;" text="0" />
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="4" style="-fx-min-width:120;-fx-padding:12;" styleClass="card">
+                        <Label style="-fx-font-size:11px;-fx-text-fill:#666;" text="Thefts" />
+                        <Label fx:id="theftsLabel" style="-fx-font-size:26px;-fx-font-weight:bold; -fx-text-fill:#e65100;" text="0" />
+                    </VBox>
+                </HBox>
 
-            <!-- Search -->
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <TextField fx:id="searchField" promptText="Search by registration, officer, type..." styleClass="form-field" HBox.hgrow="ALWAYS" />
-                <Button onAction="#handleSearch" styleClass="btn-primary" text="Search" />
-                <Button onAction="#handleClearSearch" style="-fx-background-color:#eceff1;-fx-text-fill:#424242; -fx-font-size:13px;-fx-padding:9 20; -fx-background-radius:5;-fx-cursor:hand; -fx-font-weight:bold;" text="Clear" />
-            </HBox>
+                <!-- Search -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <TextField fx:id="searchField" promptText="Search by registration, officer, type..." styleClass="form-field" HBox.hgrow="ALWAYS" />
+                    <Button onAction="#handleSearch" styleClass="btn-primary" text="Search" />
+                    <Button onAction="#handleClearSearch" style="-fx-background-color:#eceff1;-fx-text-fill:#424242; -fx-font-size:13px;-fx-padding:9 20; -fx-background-radius:5;-fx-cursor:hand; -fx-font-weight:bold;" text="Clear" />
+                </HBox>
 
-            <!-- Filter buttons -->
-            <HBox spacing="8">
-                <Button onAction="#filterAll" styleClass="btn-primary" text="All" />
-                <Button onAction="#filterAccidents" styleClass="btn-primary" text="Accidents" />
-                <Button onAction="#filterTheft" styleClass="btn-primary" text="Theft" />
-                <Button onAction="#filterInspection" styleClass="btn-primary" text="Inspection" />
-            </HBox>
+                <!-- Filter buttons -->
+                <HBox spacing="8">
+                    <Button onAction="#filterAll" styleClass="btn-primary" text="All" />
+                    <Button onAction="#filterAccidents" styleClass="btn-primary" text="Accidents" />
+                    <Button onAction="#filterTheft" styleClass="btn-primary" text="Theft" />
+                    <Button onAction="#filterInspection" styleClass="btn-primary" text="Inspection" />
+                </HBox>
 
-            <Label fx:id="tableMessageLabel" style="-fx-font-size:12px;-fx-text-fill:#e53935;" text="" />
+                <Label fx:id="tableMessageLabel" style="-fx-font-size:12px;-fx-text-fill:#e53935;" text="" />
 
-            <Label styleClass="page-title" text="Police Reports" />
+                <Label styleClass="page-title" text="Police Reports" />
 
-            <TableView fx:id="policeTable" styleClass="table-view" VBox.vgrow="ALWAYS">
-                <columns>
-                    <TableColumn fx:id="colId" prefWidth="50" text="ID" />
-                    <TableColumn fx:id="colVehicleReg" prefWidth="130" text="Vehicle Reg" />
-                    <TableColumn fx:id="colDate" prefWidth="110" text="Date" />
-                    <TableColumn fx:id="colType" prefWidth="100" text="Type" />
-                    <TableColumn fx:id="colDesc" prefWidth="200" text="Description" />
-                    <TableColumn fx:id="colOfficer" prefWidth="130" text="Officer" />
-                    <TableColumn fx:id="colStation" prefWidth="130" text="Station" />
-                    <TableColumn fx:id="colCase" prefWidth="110" text="Case No." />
-                </columns>
-                <placeholder>
-                    <Label text="No police reports found." />
-                </placeholder>
-            </TableView>
+                <TableView fx:id="policeTable" styleClass="table-view" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="50" text="ID" />
+                        <TableColumn fx:id="colVehicleReg" prefWidth="130" text="Vehicle Reg" />
+                        <TableColumn fx:id="colDate" prefWidth="110" text="Date" />
+                        <TableColumn fx:id="colType" prefWidth="100" text="Type" />
+                        <TableColumn fx:id="colDesc" prefWidth="200" text="Description" />
+                        <TableColumn fx:id="colOfficer" prefWidth="130" text="Officer" />
+                        <TableColumn fx:id="colStation" prefWidth="130" text="Station" />
+                        <TableColumn fx:id="colCase" prefWidth="110" text="Case No." />
+                    </columns>
+                    <placeholder>
+                        <Label text="No police reports found." />
+                    </placeholder>
+                </TableView>
 
-        </VBox>
-    </HBox>
+            </VBox>
+        </HBox>
+    </ScrollPane>
 </VBox>

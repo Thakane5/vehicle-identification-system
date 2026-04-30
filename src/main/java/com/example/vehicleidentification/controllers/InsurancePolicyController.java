@@ -441,7 +441,6 @@ public class InsurancePolicyController implements Initializable {
         return true;
     }
 
-    // ── Filters & Search ──────────────────────────────────────────────────
     @FXML public void handleSearch() {
         String kw = searchField.getText().trim().toLowerCase();
         if (kw.isEmpty()) {
@@ -499,8 +498,7 @@ public class InsurancePolicyController implements Initializable {
             tableMessageLabel.setText("Showing " + expired.size() + " expired policy(ies).");
     }
 
-    // ── Input filters ─────────────────────────────────────────────────────
-    private void applyInputFilters() {
+     private void applyInputFilters() {
         if (providerField != null)
             providerField.textProperty().addListener((obs, o, n) -> {
                 if (!n.matches("[a-zA-Z\\s]*"))
@@ -517,7 +515,6 @@ public class InsurancePolicyController implements Initializable {
             });
     }
 
-    // ── Visual effects ────────────────────────────────────────────────────
     private void applyVisualEffects() {
         if (logoutButton == null) return;
         DropShadow ds = new DropShadow();
@@ -534,7 +531,6 @@ public class InsurancePolicyController implements Initializable {
         fade.play();
     }
 
-    // ── Message helpers ───────────────────────────────────────────────────
     private void success(String m) {
         if (messageLabel == null) return;
         messageLabel.setStyle("-fx-text-fill:#2e7d32;-fx-font-weight:bold;");
@@ -551,7 +547,6 @@ public class InsurancePolicyController implements Initializable {
         messageLabel.setText(m);
     }
 
-    // ── Navigation ────────────────────────────────────────────────────────
     private Stage resolveStage(ActionEvent e) {
         Object src = e.getSource();
         if (src instanceof Node node)

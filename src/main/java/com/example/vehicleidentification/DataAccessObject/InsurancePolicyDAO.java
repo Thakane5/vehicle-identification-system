@@ -109,7 +109,7 @@ public class InsurancePolicyDAO {
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("❌ Delete policy: " + e.getMessage());
+            System.out.println(" Delete policy: " + e.getMessage());
             return false;
         }
     }
@@ -122,7 +122,7 @@ public class InsurancePolicyDAO {
                     WHERE end_date < CURRENT_DATE AND status='Active'
                     """);
         } catch (SQLException e) {
-            System.out.println("❌ Auto-expire: " + e.getMessage());
+            System.out.println(" Auto-expire: " + e.getMessage());
         }
     }
 

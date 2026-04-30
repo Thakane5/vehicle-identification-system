@@ -9,9 +9,6 @@ import java.util.List;
 
 public class CustomerDAO {
 
-    // ----------------------------------------------------------------
-    // READ
-    // ----------------------------------------------------------------
 
     public List<Customer> getAllCustomers() {
         List<Customer> list = new ArrayList<>();
@@ -88,13 +85,7 @@ public class CustomerDAO {
         return list;
     }
 
-    // ----------------------------------------------------------------
-    // CREATE
-    // ----------------------------------------------------------------
 
-    /**
-     * Insert a customer with user_id = NULL (data-only, no login).
-     */
     public boolean addCustomerNoLogin(Customer c) {
         String sql = """
                 INSERT INTO customer (user_id, name, address, phone, email)
@@ -115,9 +106,7 @@ public class CustomerDAO {
         }
     }
 
-    /**
-     * Insert a customer with a linked user_id (has login account).
-     */
+
     public boolean addCustomer(Customer c) {
         String sql = """
                 INSERT INTO customer (user_id, name, address, phone, email)
@@ -143,9 +132,6 @@ public class CustomerDAO {
         }
     }
 
-    // ----------------------------------------------------------------
-    // UPDATE
-    // ----------------------------------------------------------------
 
     public boolean updateCustomer(Customer c) {
         String sql = """
@@ -168,10 +154,7 @@ public class CustomerDAO {
         }
     }
 
-    /**
-     * Grant login access to an existing data-only customer:
-     * sets user_id on the customer row (Users record already created by caller).
-     */
+
     public boolean grantLoginAccess(int customerId, String userId) {
         String sql = "UPDATE customer SET user_id = ? WHERE customer_id = ?";
         try {
@@ -187,9 +170,6 @@ public class CustomerDAO {
         }
     }
 
-    // ----------------------------------------------------------------
-    // DELETE
-    // ----------------------------------------------------------------
 
     public boolean deleteCustomer(int customerId) {
         try {
@@ -205,9 +185,6 @@ public class CustomerDAO {
         }
     }
 
-    // ----------------------------------------------------------------
-    // MAPPING
-    // ----------------------------------------------------------------
 
     private Customer mapRow(ResultSet rs) throws SQLException {
         String userId = null;

@@ -35,16 +35,21 @@ public class ViolationController implements Initializable {
     // ── Panes ──────────────────────────────────────────────────────
     @FXML private VBox accessDeniedPane;
     @FXML private VBox customerPane;
-    @FXML private VBox mainContentPane;   // POLICE full access
-    @FXML private VBox adminViewPane;     // ADMIN view-only
+    @FXML private VBox mainContentPane;
+    @FXML private VBox adminViewPane;
 
-    // ── Welcome / summary (shared labels used by police pane) ──────
+    // ── ScrollPane wrappers — toggled alongside their inner VBox ───
+    @FXML private ScrollPane customerScrollPane;
+    @FXML private ScrollPane adminScrollPane;
+    @FXML private ScrollPane policeScrollPane;
+
+    // ── Welcome / summary ──────────────────────────────────────────
     @FXML private Label welcomeLabel;
     @FXML private Label totalViolationsLabel;
     @FXML private Label unpaidLabel;
     @FXML private Label paidLabel;
 
-    // ── Admin-only summary labels (separate pane) ──────────────────
+    // ── Admin-only summary labels ──────────────────────────────────
     @FXML private Label adminTotalLabel;
     @FXML private Label adminUnpaidLabel;
     @FXML private Label adminPaidLabel;
@@ -83,7 +88,7 @@ public class ViolationController implements Initializable {
     @FXML private TableColumn<Violation, Double>    colFine;
 
     // ── Customer table ─────────────────────────────────────────────
-    @FXML private TableView<Violation>            customerViolationTable;
+    @FXML private TableView<Violation>              customerViolationTable;
     @FXML private TableColumn<Violation, LocalDate> cColDate;
     @FXML private TableColumn<Violation, String>    cColVehicle, cColType, cColStatus;
     @FXML private TableColumn<Violation, Double>    cColFine;
@@ -97,7 +102,6 @@ public class ViolationController implements Initializable {
 
     private ObservableList<Violation> allViolations =
             FXCollections.observableArrayList();
-    // Admin keeps its own observable list so police and admin don't share state
     private ObservableList<Violation> adminAllViolations =
             FXCollections.observableArrayList();
 
@@ -112,32 +116,23 @@ public class ViolationController implements Initializable {
                 + " [" + currentRole + "]");
 
         switch (currentRole) {
-
-            // POLICE — full access: add, update, delete, mark paid
             case "POLICE" -> {
                 showMainContent();
                 setupMainTable();
                 loadVehicleCombo();
                 loadTable();
-                // Police can delete — keep btnDelete visible
                 applyInputFilters();
             }
-
-            // ADMIN — view only: separate read-only pane, no form
             case "ADMIN" -> {
                 showAdminView();
                 setupAdminTable();
                 loadAdminTable();
             }
-
-            // CUSTOMER — own violations only, read-only
             case "CUSTOMER" -> {
                 showCustomerPane();
                 setupCustomerTable();
                 loadCustomerBreaches();
             }
-
-            // WORKSHOP, INSURANCE, others — denied
             default -> showAccessDenied();
         }
 
@@ -145,38 +140,62 @@ public class ViolationController implements Initializable {
     }
 
     // ----------------------------------------------------------------
-    // PANE SWITCHING
+    // PANE SWITCHING — ScrollPanes toggled alongside their inner VBox
     // ----------------------------------------------------------------
     private void showAccessDenied() {
-        accessDeniedPane   .setVisible(true);  accessDeniedPane   .setManaged(true);
-        customerPane       .setVisible(false); customerPane       .setManaged(false);
-        mainContentPane    .setVisible(false); mainContentPane    .setManaged(false);
-        adminViewPane      .setVisible(false); adminViewPane      .setManaged(false);
+        accessDeniedPane  .setVisible(true);  accessDeniedPane  .setManaged(true);
+
+        customerScrollPane.setVisible(false); customerScrollPane.setManaged(false);
+        customerPane      .setVisible(false); customerPane      .setManaged(false);
+
+        adminScrollPane   .setVisible(false); adminScrollPane   .setManaged(false);
+        adminViewPane     .setVisible(false); adminViewPane     .setManaged(false);
+
+        policeScrollPane  .setVisible(false); policeScrollPane  .setManaged(false);
+        mainContentPane   .setVisible(false); mainContentPane   .setManaged(false);
     }
 
     private void showCustomerPane() {
-        accessDeniedPane   .setVisible(false); accessDeniedPane   .setManaged(false);
-        customerPane       .setVisible(true);  customerPane       .setManaged(true);
-        mainContentPane    .setVisible(false); mainContentPane    .setManaged(false);
-        adminViewPane      .setVisible(false); adminViewPane      .setManaged(false);
+        accessDeniedPane  .setVisible(false); accessDeniedPane  .setManaged(false);
+
+        customerScrollPane.setVisible(true);  customerScrollPane.setManaged(true);
+        customerPane      .setVisible(true);  customerPane      .setManaged(true);
+
+        adminScrollPane   .setVisible(false); adminScrollPane   .setManaged(false);
+        adminViewPane     .setVisible(false); adminViewPane     .setManaged(false);
+
+        policeScrollPane  .setVisible(false); policeScrollPane  .setManaged(false);
+        mainContentPane   .setVisible(false); mainContentPane   .setManaged(false);
     }
 
     private void showMainContent() {
-        accessDeniedPane   .setVisible(false); accessDeniedPane   .setManaged(false);
-        customerPane       .setVisible(false); customerPane       .setManaged(false);
-        mainContentPane    .setVisible(true);  mainContentPane    .setManaged(true);
-        adminViewPane      .setVisible(false); adminViewPane      .setManaged(false);
+        accessDeniedPane  .setVisible(false); accessDeniedPane  .setManaged(false);
+
+        customerScrollPane.setVisible(false); customerScrollPane.setManaged(false);
+        customerPane      .setVisible(false); customerPane      .setManaged(false);
+
+        adminScrollPane   .setVisible(false); adminScrollPane   .setManaged(false);
+        adminViewPane     .setVisible(false); adminViewPane     .setManaged(false);
+
+        policeScrollPane  .setVisible(true);  policeScrollPane  .setManaged(true);
+        mainContentPane   .setVisible(true);  mainContentPane   .setManaged(true);
     }
 
     private void showAdminView() {
-        accessDeniedPane   .setVisible(false); accessDeniedPane   .setManaged(false);
-        customerPane       .setVisible(false); customerPane       .setManaged(false);
-        mainContentPane    .setVisible(false); mainContentPane    .setManaged(false);
-        adminViewPane      .setVisible(true);  adminViewPane      .setManaged(true);
+        accessDeniedPane  .setVisible(false); accessDeniedPane  .setManaged(false);
+
+        customerScrollPane.setVisible(false); customerScrollPane.setManaged(false);
+        customerPane      .setVisible(false); customerPane      .setManaged(false);
+
+        adminScrollPane   .setVisible(true);  adminScrollPane   .setManaged(true);
+        adminViewPane     .setVisible(true);  adminViewPane     .setManaged(true);
+
+        policeScrollPane  .setVisible(false); policeScrollPane  .setManaged(false);
+        mainContentPane   .setVisible(false); mainContentPane   .setManaged(false);
     }
 
     // ----------------------------------------------------------------
-    // ADMIN VIEW-ONLY TABLE SETUP & LOAD
+    // ADMIN VIEW-ONLY TABLE SETUP & LOAD — unchanged
     // ----------------------------------------------------------------
     private void setupAdminTable() {
         aColId        .setCellValueFactory(new PropertyValueFactory<>("violationId"));
@@ -209,7 +228,7 @@ public class ViolationController implements Initializable {
     }
 
     private void updateAdminSummary() {
-        adminTotalLabel .setText(String.valueOf(adminAllViolations.size()));
+        adminTotalLabel.setText(String.valueOf(adminAllViolations.size()));
         long unpaid = adminAllViolations.stream()
                 .filter(v -> "Unpaid".equalsIgnoreCase(v.getStatus())).count();
         long paid = adminAllViolations.stream()
@@ -218,16 +237,15 @@ public class ViolationController implements Initializable {
         adminPaidLabel  .setText(String.valueOf(paid));
     }
 
-    // Admin search / filter handlers (separate from police search)
     @FXML public void handleAdminSearch() {
         String kw = adminSearchField.getText().trim().toLowerCase();
         if (kw.isEmpty()) { loadAdminTable(); return; }
         List<Violation> results = adminAllViolations.stream()
                 .filter(v ->
-                        (v.getVehicleReg()   != null && v.getVehicleReg()  .toLowerCase().contains(kw))
+                        (v.getVehicleReg()    != null && v.getVehicleReg()   .toLowerCase().contains(kw))
                                 || (v.getViolationType() != null && v.getViolationType().toLowerCase().contains(kw))
-                                || (v.getOfficerName()  != null && v.getOfficerName() .toLowerCase().contains(kw))
-                                || (v.getLocation()     != null && v.getLocation()    .toLowerCase().contains(kw)))
+                                || (v.getOfficerName()   != null && v.getOfficerName()  .toLowerCase().contains(kw))
+                                || (v.getLocation()      != null && v.getLocation()     .toLowerCase().contains(kw)))
                 .collect(Collectors.toList());
         adminViolationTable.setItems(FXCollections.observableArrayList(results));
         adminTableMessageLabel.setText(results.isEmpty()
@@ -262,7 +280,7 @@ public class ViolationController implements Initializable {
     }
 
     // ----------------------------------------------------------------
-    // INPUT FILTERS — police only (letters + spaces for officer/location)
+    // INPUT FILTERS — unchanged
     // ----------------------------------------------------------------
     private void applyInputFilters() {
         officerField.textProperty().addListener((obs, oldVal, newVal) -> {
@@ -429,7 +447,7 @@ public class ViolationController implements Initializable {
     }
 
     // ----------------------------------------------------------------
-    // POLICE CRUD — unchanged logic, all available to POLICE
+    // POLICE CRUD — unchanged
     // ----------------------------------------------------------------
     @FXML public void handleClear() {
         vehicleCombo       .setValue(null);

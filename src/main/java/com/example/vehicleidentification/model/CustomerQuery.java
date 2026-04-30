@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class CustomerQuery {
     private int       queryId;
     private int       customerId;
-    private int       userId;
+    private String userId;
     private int       vehicleId;
     private LocalDate queryDate;
     private String    queryText;
@@ -30,8 +30,8 @@ public class CustomerQuery {
     public void      setQueryId(int q)         { this.queryId = q; }
     public int       getCustomerId()           { return customerId; }
     public void      setCustomerId(int c)      { this.customerId = c; }
-    public int       getUserId()               { return userId; }   // int — was wrongly String
-    public void      setUserId(int u)          { this.userId = u; }
+    public String getUserId() { return userId; }  // int — was wrongly String
+    public void setUserId(String u) { this.userId = u; }
     public int       getVehicleId()            { return vehicleId; }
     public void      setVehicleId(int v)       { this.vehicleId = v; }
     public LocalDate getQueryDate()            { return queryDate; }

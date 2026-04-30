@@ -9,7 +9,6 @@ import java.util.List;
 
 public class UserDAO {
 
-    // ── LOGIN ─────────────────────────────────────────────────────────────
     public User loginByCustomId(String userId, String password, String role) {
         String sql = """
                 SELECT * FROM users
@@ -32,7 +31,6 @@ public class UserDAO {
         return null;
     }
 
-    // ── GET ALL ───────────────────────────────────────────────────────────
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
         try {
@@ -46,7 +44,6 @@ public class UserDAO {
         return list;
     }
 
-    // ── GET CUSTOMERS ─────────────────────────────────────────────────────
     public List<User> getCustomerUsers() {
         List<User> list = new ArrayList<>();
         try {
@@ -60,8 +57,7 @@ public class UserDAO {
         return list;
     }
 
-    // ── CHECK ID EXISTS ───────────────────────────────────────────────────
-    public boolean userIdExists(String userId) {
+     public boolean userIdExists(String userId) {
         try {
             Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(
@@ -75,7 +71,6 @@ public class UserDAO {
         return false;
     }
 
-    // ── CREATE USER ───────────────────────────────────────────────────────
     public boolean createUser(User user) {
         if (userIdExists(user.getUserId())) {
             System.out.println("❌ ID already exists: " + user.getUserId());
@@ -128,11 +123,10 @@ public class UserDAO {
         s.setString(4, user.getPhone()  != null ? user.getPhone().trim()  : "");
         s.setString(5, "");
         s.executeUpdate();
-        System.out.println("✅ Customer record created for: " + user.getUserId());
+        System.out.println(" Customer record created for: " + user.getUserId());
     }
 
-    // ── UPDATE ────────────────────────────────────────────────────────────
-    public boolean updateUser(User user) {
+     public boolean updateUser(User user) {
         String sql = """
                 UPDATE users SET username=?, password=?, role=?, email=?
                 WHERE user_id=?
@@ -153,7 +147,6 @@ public class UserDAO {
         }
     }
 
-    // ── DELETE ────────────────────────────────────────────────────────────
     public boolean deleteUser(String userId) {
         try {
             Connection conn = DBConnection.getConnection();

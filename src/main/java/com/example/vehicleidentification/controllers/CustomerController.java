@@ -526,7 +526,7 @@ public class CustomerController implements Initializable {
         CustomerQuery q = new CustomerQuery(
                 0, currentCustomer.getCustomerId(), selVehicle.getVehicleId(),
                 LocalDate.now(), qText, "", "Pending");
-        q.setUserId(0);
+        q.setUserId(SessionManager.getUserId());
 
         if (queryDAO.addQuery(q)) {
             setQueryMsg("Query submitted successfully.", true);

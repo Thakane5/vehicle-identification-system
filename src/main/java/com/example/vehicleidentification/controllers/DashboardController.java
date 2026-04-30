@@ -196,9 +196,6 @@ public class DashboardController implements Initializable {
         NavigationUtil.navigateTo(fxml, welcomeLabel);
     }
 
-    // ----------------------------------------------------------------
-    // ACTION HANDLERS — all users can access all modules
-    // ----------------------------------------------------------------
     @FXML public void handleExit()                 { System.exit(0); }
     @FXML public void goToDashboard(ActionEvent e) { navigate("dashboard.fxml"); }
     @FXML public void goToVehicle(ActionEvent e)   { navigate("vehicle.fxml"); }
